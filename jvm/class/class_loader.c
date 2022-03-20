@@ -1,8 +1,9 @@
-#include "class_loader.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h> // memcpy
+#include "class_loader.h"
+#include "utf8_utils.h"
 
 void* copy_class_file_to_ram(const char *filename) {
     FILE* fp;
@@ -290,8 +291,30 @@ class_file* load_class_file(const char*filename) {
 }
 
 attribute_Code* load_attribute_code(class_file* class, attribute_info* info) {
-    // TODO
-    return 0;
+    UTF8_String* atr_name = &(class->constant_pool[info->attribute_name_index-1]->data.Utf8);
+    
+    if (utf8_strcmp(atr_name, &ATTRIBUTE_CODE) != 0)
+        return 0; // Não é um Code... retornamos ponteiro nulo
+    
+    attribute_Code* code = malloc(sizeof(attribute_Code));
+    void* data = info->info;
+    code->max_stack = u2_readp(&data);
+    code->max_locals = u2_readp(&data);
+    code->code_length = u4_readp(&data);
+
+     // Podemos usar esse ponteiro, porque os dados originais não vão ser excluídos
+     // enquanto o class_file existir em memória...
+    code->code = data;
+    data += code->code_length;
+
+    code->exception_table_length = u2_readp(&data);
+    code->exception_table = data; // mesma coisa do code->code aqui...
+    data += code->exception_table_length;
+
+    code->attributes_count = u2_readp(&data);
+    code->attributes = load_attributes(&data, code->attributes_count);
+
+    return code;
 }
 
 void free_attribute_code(attribute_Code* data) {
