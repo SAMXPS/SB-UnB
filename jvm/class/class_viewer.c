@@ -44,6 +44,16 @@ void view_cp_info_class_name(class_file* class, cp_info* element) {
     printf(">\n");
 }
 
+void view_cp_info_class_name_indirect(class_file* class, u2 index) {
+    printf("cp_info#%d\t<", index);
+    view_cp_info_utf8(class, class->constant_pool[index-1]->data.Class.name_index);
+    printf(">");
+}
+
+void view_cp_info_class_name_indirect_indirect(class_file* class, u2 index) {
+    view_cp_info_utf8(class, class->constant_pool[index-1]->data.Class.name_index);
+}
+
 void view_cp_info(cp_info* element, class_file* class) {
     switch (element->tag) {
         case CONSTANT_Class:
@@ -97,23 +107,40 @@ void view_cp_info(cp_info* element, class_file* class) {
 }
 
 void view_class_file(class_file* class) {
-    printf("\n\n########Informacoes Gerais##########\n\n");
+    printf("\n\n######## Informacoes Gerais ##########\n\n");
     if (class) {
-        printf("minor_version=%u\n", class->minor_version);
-        printf("major_version=%u\n", class->major_version);
-        printf("cpoolcount=%d\n", class->constant_pool_count);
+        printf("minor_version:\t\t%u\n", class->minor_version);
+        printf("major_version:\t\tu\n", class->major_version);
+        printf("cpoolcount:\t\t%d\n", class->constant_pool_count);
+        printf("access_flags:\t\t%d\n", class->access_flags); // todo: traduzir para hexa + access_flags
+        printf("this_class:\t\t");
+        view_cp_info_class_name_indirect(class, class->this_class);
+        printf("\n");
+        printf("super_class:\t\t", class->super_class);
+        view_cp_info_class_name_indirect(class, class->super_class);
+        printf("\n");
+        printf("interfaces_count:\t%d\n", class->interfaces_count);
+        printf("fields_count:\t\t%d\n", class->fields_count);
+        printf("methods_count:\t\t%d\n", class->methods_count);
+        printf("attributes_count:\t%d\n", class->attributes_count);
         //TODO mostrar resto
 
-        printf("\n\n##########Constant Pool##########\n\n");
+        printf("\n\n########## Constant Pool ##########\n\n");
         for (int i = 1, j; i <  class->constant_pool_count; i++) {
             j = i-1;
             printf("[%02d] ", i);
             view_cp_info(class->constant_pool[j], class);
             printf("\n");
         }
+
+        printf("\n\n########## Interfaces ##########\n\n");
+        for (int i = 0; i < class->interfaces_count; i++) {
+            printf("Interface %d: cp_info#%d <", i, (class->interfaces[i]));
+            view_cp_info_class_name_indirect_indirect(class, class->interfaces[i]);
+            printf(">\n");
+        }
         printf("\n");
         
-        //TODO INTERFACES
         //TODO FIELDS
         //TODO METHODS
         //TODO ATTRIBUTES
