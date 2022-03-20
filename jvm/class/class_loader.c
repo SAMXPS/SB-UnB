@@ -140,9 +140,8 @@ int load_constant_pool(void** data, class_file* class) {
                 element = (cp_info*) malloc(sizeof(cp_info) + temp);
                 element->tag = tag;
                 element->data.Utf8.length = temp;
-                bytes = (u1*)(&(element->data.Utf8.bytes));
                 for (u2 i = 0; i < temp; i++) {
-                    bytes[i] = *((u1*)*data);
+                    element->data.Utf8.bytes[i] = *((u1*)*data);
                     (*data)++;
                 }
                 pool[index++] = element;
@@ -288,4 +287,13 @@ class_file* load_class_file(const char*filename) {
     }
 
     return class;
+}
+
+attribute_Code* load_attribute_code(class_file* class, attribute_info* info) {
+    // TODO
+    return 0;
+}
+
+void free_attribute_code(attribute_Code* data) {
+    // TODO
 }

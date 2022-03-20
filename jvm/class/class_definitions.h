@@ -22,6 +22,11 @@ enum CONSTANT_TAGS {
 };
 
 typedef struct {
+    u2 length;
+    u1 bytes[];
+} UTF8_String;
+
+typedef struct {
     u1 tag;
     union {
         struct {
@@ -60,10 +65,7 @@ typedef struct {
             u2 name_index;
             u2 descriptor_index;
         } NameAndType;
-        struct {
-            u2 length;
-            u1 bytes; // TODO: transformar em ponteiro... REFACTOR....
-        } Utf8;
+        UTF8_String Utf8;
     } data;
 } cp_info;
 
