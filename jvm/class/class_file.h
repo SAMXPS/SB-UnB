@@ -62,24 +62,33 @@ typedef struct {
         } NameAndType;
         struct {
             u2 length;
-            u1 bytes;
+            u1 bytes; // TODO: transformar em ponteiro... REFACTOR....
         } Utf8;
     } data;
 } cp_info;
 
 typedef struct {
-    //todo
+    u2              attribute_name_index;
+    u4              attribute_length;
+    u1*             info;
+} attribute_info;
+
+typedef struct {
+    u2              access_flags;
+    u2              name_index;
+    u2              descriptor_index;
+    u2              attributes_count;
+    attribute_info* attributes;
 } field_info;
 
-
 typedef struct {
-    //todo
+    u2              access_flags;
+    u2              name_index;
+    u2              descriptor_index;
+    u2              attributes_count;
+    attribute_info* attributes;
 } method_info;
 
-typedef struct {
-
-    //todo
-} attribute_info;
 
 typedef struct {
     u4              magic;

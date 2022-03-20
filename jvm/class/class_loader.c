@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h> // memcpy
 
 void* copy_class_file_to_ram(const char *filename) {
     FILE* fp;
@@ -11,9 +12,9 @@ void* copy_class_file_to_ram(const char *filename) {
     fseek(fp, 0L, SEEK_END);
     long fsize = ftell(fp);
     fseek(fp, 0L, SEEK_SET);
-    printf("File has %ld size\n", fsize);
     void* data = malloc(fsize);
     fread(data, fsize, 1, fp);
+    fclose(fp);
     return data;
 }
 
@@ -47,6 +48,12 @@ u4 u4_readp(void** data) {
 
 u8 u8_read(const void* data) {
     return (u8)u4_read(data) << 32 | u4_read(data+4);
+}
+
+u8 u8_readp(const void**  data) {
+    u8 ret = u8_read(*data);
+    *data+=8;
+    return ret;
 }
 
 int load_constant_pool(void** data, class_file* class) {
@@ -149,12 +156,67 @@ int load_constant_pool(void** data, class_file* class) {
     return 1;
 }
 
+attribute_info* load_attributes(void** data, u2 count) {
+    attribute_info* attributes = malloc(sizeof(attribute_info)*count);
+    for (u2 i=0; i<count; i++) {
+        attributes[i].attribute_name_index = u2_readp(data);
+        attributes[i].attribute_length = u4_readp(data);
+        attributes[i].info = malloc(attributes[i].attribute_length);
+        memcpy(attributes[i].info, *data, attributes[i].attribute_length);
+        *data+=attributes[i].attribute_length;
+    }
+    return attributes;
+}
+
+field_info load_field(void** data) {
+    field_info info;
+    info.access_flags = u2_readp(data);
+    info.name_index = u2_readp(data);
+    info.descriptor_index = u2_readp(data);
+    info.attributes_count = u2_readp(data);
+    info.attributes = load_attributes(data, info.attributes_count);
+}
+
+method_info load_method(void** data) {
+    method_info info;
+    info.access_flags = u2_readp(data);
+    info.name_index = u2_readp(data);
+    info.descriptor_index = u2_readp(data);
+    info.attributes_count = u2_readp(data);
+    info.attributes = load_attributes(data, info.attributes_count);
+}
+
+int load_interfaces(class_file* class, void** data) {
+    class->interfaces = malloc(sizeof(u2)*class->interfaces_count);
+    for(u2 i = 0; i < class->interfaces_count; i++) {
+        class->interfaces[i] = u2_readp(data);
+    }
+    return 1;
+}
+
+int load_fields(class_file* class, void** data) {
+    class->fields = malloc(sizeof(field_info)* class->fields_count);
+    for (u2 i = 0; i < class->fields_count; i++) {
+        class->fields[i] = load_field(data);
+    }
+    return 1;
+}
+
+int load_methods(class_file* class, void** data) {
+    class->methods = malloc(sizeof(method_info)* class->methods_count);
+    for (u2 i = 0; i < class->methods_count; i++) {
+        class->methods[i] = load_method(data);
+    }
+    return 1;
+}
+
 void free_class_file(class_file* class) {
     if (class) {
         for (u4 i = 0; i + 1 < class->constant_pool_count; i++) {
             if (class->constant_pool[i])
                 free(class->constant_pool[i]);
         }
+        // todo : free attributes
         free(class->constant_pool);
         free(class->freeme);
         free(class);
@@ -186,6 +248,42 @@ class_file* load_class_file(const char*filename) {
 
     if (!load_constant_pool(&data, class)) {
         printf("Erro ao carregar pool de constantes.\n");
+        free_class_file(class);
+        return 0;
+    }
+
+    class->access_flags = u2_readp(&data);
+    class->this_class = u2_readp(&data);
+    class->super_class = u2_readp(&data);
+    class->interfaces_count = u2_readp(&data);
+
+    if (!load_interfaces(class, &data)) {
+        printf("Erro ao carregar interfaces.\n");
+        free_class_file(class);
+        return 0;
+    }
+    
+    class->fields_count = u2_readp(&data);
+
+    if (!load_fields(class, &data)) {
+        printf("Erro ao carregar fields.\n");
+        free_class_file(class);
+        return 0;
+    }
+
+    class->methods_count = u2_readp(&data);
+
+    if (!load_methods(class, &data)) {
+        printf("Erro ao carregar methods.\n");
+        free_class_file(class);
+        return 0;
+    }
+
+    class->attributes_count = u2_readp(&data);
+    class->attributes = load_attributes(&data, class->attributes_count);
+
+    if (!class->attributes) {
+        printf("Erro ao carregar attributes.\n");
         free_class_file(class);
         return 0;
     }
