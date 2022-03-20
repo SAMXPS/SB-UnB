@@ -110,7 +110,7 @@ void view_class_file(class_file* class) {
     printf("\n\n######## Informacoes Gerais ##########\n\n");
     if (class) {
         printf("minor_version:\t\t%u\n", class->minor_version);
-        printf("major_version:\t\tu\n", class->major_version);
+        printf("major_version:\t\t%u\n", class->major_version);
         printf("cpoolcount:\t\t%d\n", class->constant_pool_count);
         printf("access_flags:\t\t%d\n", class->access_flags); // todo: traduzir para hexa + access_flags
         printf("this_class:\t\t");
