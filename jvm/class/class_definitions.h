@@ -1,5 +1,5 @@
-#ifndef CLASS_FILE_H
-#define CLASS_FILE_H
+#ifndef CLASS_DEFINITIONS_H
+#define CLASS_DEFINITIONS_H
 #include <stdint.h>
 
 typedef uint8_t  u1;
@@ -89,7 +89,6 @@ typedef struct {
     attribute_info* attributes;
 } method_info;
 
-
 typedef struct {
     u4              magic;
     u2              minor_version;
@@ -110,4 +109,4 @@ typedef struct {
     void*           freeme;
 } class_file;
 
-#endif//CLASS_FILE_H
+#endif//CLASS_DEFINITIONS_H
