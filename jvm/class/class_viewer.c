@@ -56,6 +56,10 @@ void view_cp_info_class_name_indirect_indirect(class_file* class, u2 index) {
 }
 
 void view_cp_info(cp_info* element, class_file* class) {
+    if (!element) { 
+        printf("Continuacao de cat2...\n");
+        return;
+    }
     switch (element->tag) {
         case CONSTANT_Class:
             printf("CONSTANT_Class\n");
