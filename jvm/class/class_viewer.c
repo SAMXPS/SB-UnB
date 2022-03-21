@@ -1,5 +1,6 @@
 #include "class_viewer.h"
 #include "bytecode_viewer.h"
+#include "utf8_utils.h"
 #include <stdio.h>
 
 void view_cp_info_utf8(class_file* class, u2 index) {
@@ -53,6 +54,31 @@ void view_cp_info_class_name_indirect(class_file* class, u2 index) {
 
 void view_cp_info_class_name_indirect_indirect(class_file* class, u2 index) {
     view_cp_info_utf8(class, class->constant_pool[index-1]->data.Class.name_index);
+}
+
+void view_attribute(class_file* class, attribute_info* info) {
+    if (info) {
+        utf8_print_constant_pool(class, info->attribute_name_index);
+        printf("\n");
+        
+        printf("Tamanho em bytes: %d\n", info->attribute_length);
+        printf("\n");
+    }
+}
+
+void view_field(class_file* class, u2 index) {
+    field_info* info = class->fields + index;
+
+    printf("Nome do field:\t<");
+    utf8_print_constant_pool(class, info->name_index);
+    printf(">\n");
+    
+    printf("Descriptor:\t<");
+    utf8_print_constant_pool(class, info->descriptor_index);
+    printf(">\n");
+
+    printf("access_flags:\t0x%02X\n", info->access_flags); // todo: traduzir para hexa + access_flags
+    printf("Quantidade de atributos:\t%d\n", info->attributes_count);
 }
 
 void view_cp_info(cp_info* element, class_file* class) {
@@ -120,9 +146,9 @@ void view_class_file(class_file* class) {
 
     printf("minor_version:\t\t%u\n", class->minor_version);
     printf("major_version:\t\t%u\n", class->major_version);
-    printf("cpoolcount:\t\t%d\n", class->constant_pool_count);
+    printf("constpoolcount:\t\t%d\n", class->constant_pool_count);
     printf("access_flags:\t\t0x%02X\n", class->access_flags); // todo: traduzir para hexa + access_flags
-    printf("this_class:\t\t");
+    printf("this_class:  \t\t");
     view_cp_info_class_name_indirect(class, class->this_class);
     printf("\n");
     printf("super_class:\t\t", class->super_class);
@@ -132,7 +158,6 @@ void view_class_file(class_file* class) {
     printf("fields_count:\t\t%d\n", class->fields_count);
     printf("methods_count:\t\t%d\n", class->methods_count);
     printf("attributes_count:\t%d\n", class->attributes_count);
-    //TODO mostrar resto
 
     printf("\n\n########## Constant Pool ##########\n\n");
     for (int i = 1, j; i <  class->constant_pool_count; i++) {
@@ -150,7 +175,12 @@ void view_class_file(class_file* class) {
     }
     printf("\n");
     
-    //TODO FIELDS
+    printf("\n\n########## Fields ##########\n\n");
+    for (int i = 0; i < class->fields_count; i++) {
+        printf("\n");
+        view_field(class, i);
+    }
+    printf("\n");
 
     printf("\n\n########## Methods ##########\n\n");
     printf("Quantidade de metodos: %d\n", class->methods_count);
@@ -159,5 +189,10 @@ void view_class_file(class_file* class) {
         view_method(class, class->methods + i);
     }
 
-    //TODO ATTRIBUTES
+    printf("\n\n########## Attributes ##########\n\n");
+    printf("Quantidade de atributos: %d\n", class->attributes_count);
+    for (int i = 0; i < class->attributes_count; i++) {
+        printf("[%02d] ", i);
+        view_attribute(class, &(class->attributes[i]));
+    }
 }
