@@ -3,6 +3,11 @@
 #include "class_definitions.h"
 #include "class_attributes.h"
 
+u1              u1_readp(void** data);
+u2              u2_readp(void** data);
+u4              u4_readp(void** data);
+u8              u8_readp(void** data);
+
 class_file*     load_class_file(const char*filename);
 void            free_class_file(class_file* class);
 

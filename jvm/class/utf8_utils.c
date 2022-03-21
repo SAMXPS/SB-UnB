@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "utf8_utils.h"
 
 int utf8_strcmp(UTF8_String* str1, UTF8_String* str2) {
@@ -9,4 +10,15 @@ int utf8_strcmp(UTF8_String* str1, UTF8_String* str2) {
         return 0;
     }
     return 1;
+}
+
+void utf8_print_constant_pool(class_file* class, u2 index) {
+    utf8_print(&(class->constant_pool[index-1]->data.Utf8));
+}
+
+void utf8_print(UTF8_String* str) {
+    // TODO: Tratar melhor Utf8
+    for (int i = 0; i < str->length; i++) {
+        putchar(str->bytes[i]);
+    }
 }

@@ -1,4 +1,5 @@
 #include "class_viewer.h"
+#include "bytecode_viewer.h"
 #include <stdio.h>
 
 void view_cp_info_utf8(class_file* class, u2 index) {
@@ -116,7 +117,7 @@ void view_class_file(class_file* class) {
     printf("minor_version:\t\t%u\n", class->minor_version);
     printf("major_version:\t\t%u\n", class->major_version);
     printf("cpoolcount:\t\t%d\n", class->constant_pool_count);
-    printf("access_flags:\t\t%d\n", class->access_flags); // todo: traduzir para hexa + access_flags
+    printf("access_flags:\t\t0x%02X\n", class->access_flags); // todo: traduzir para hexa + access_flags
     printf("this_class:\t\t");
     view_cp_info_class_name_indirect(class, class->this_class);
     printf("\n");
@@ -146,6 +147,13 @@ void view_class_file(class_file* class) {
     printf("\n");
     
     //TODO FIELDS
-    //TODO METHODS
+
+    printf("\n\n########## Methods ##########\n\n");
+    printf("Quantidade de metodos: %d\n", class->methods_count);
+    for (int i = 0; i < class->methods_count; i++) {
+        printf("\n## Metodo %d\n", i);
+        view_method(class, class->methods + i);
+    }
+
     //TODO ATTRIBUTES
 }

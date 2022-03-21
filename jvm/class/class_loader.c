@@ -50,7 +50,7 @@ u8 u8_read(const void* data) {
     return (u8)u4_read(data) << 32 | u4_read(data+4);
 }
 
-u8 u8_readp(const void**  data) {
+u8 u8_readp(void**  data) {
     u8 ret = u8_read(*data);
     *data+=8;
     return ret;
@@ -174,6 +174,7 @@ field_info load_field(void** data) {
     info.descriptor_index = u2_readp(data);
     info.attributes_count = u2_readp(data);
     info.attributes = load_attributes(data, info.attributes_count);
+    return info;
 }
 
 method_info load_method(void** data) {
@@ -183,6 +184,7 @@ method_info load_method(void** data) {
     info.descriptor_index = u2_readp(data);
     info.attributes_count = u2_readp(data);
     info.attributes = load_attributes(data, info.attributes_count);
+    return info;
 }
 
 int load_interfaces(class_file* class, void** data) {

@@ -1,8 +1,9 @@
 #todo
 
-- [] O leitor exibidor deve ser capaz de ler uma arquivo ponto class e apresentar as estruturas nele contidas, de forma similar ao visualizador jclasslib.
-- [] Os índices para slots no pool de constantes devem ser incluídos, assim como a constante que representa, de forma similar ao que ocorre no jclasslib.
-- [] Da mesma forma, mnemônicos dos bytecodes devem ser apresentados e os seus parâmetros (argumentos) que apontam para o pool de constantes deve indicar os valores das constantes a que se referem.  
+- [X] O leitor exibidor deve ser capaz de ler uma arquivo ponto class e apresentar as estruturas nele contidas, de forma similar ao visualizador jclasslib.
+- [X] Os índices para slots no pool de constantes devem ser incluídos, assim como a constante que representa, de forma similar ao que ocorre no jclasslib.
+- [X] Da mesma forma, mnemônicos dos bytecodes devem ser apresentados 
+- [] e os seus parâmetros (argumentos) que apontam para o pool de constantes deve indicar os valores das constantes a que se referem.  
 - [] Cada grupo deverá enviar um vídeo com 5 minutos, no total, descrevendo o que foi implementado, o que não foi implementado, e como compilar e rodar o leitor-exibidor. 
 - [] Envie apenas os fontes dos códigos gerados. 
 - [] Também devem enviar slides com prints com exemplos das seções das classes de teste exibidas pelo leitor-exibidor, e enviar um resumo das atividades que cada membro desenvolveu. 
