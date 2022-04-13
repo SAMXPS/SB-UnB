@@ -3,7 +3,7 @@
 void (*instruction_handler[256])();
 
 void load_instructions() {
-	instruction_handler[0x32]=f_aaload;
+    instruction_handler[0x32]=f_aaload;
     instruction_handler[0x53]=f_aastore;
     instruction_handler[0x01]=f_aconst_null;
     instruction_handler[0x19]=f_aload; 
