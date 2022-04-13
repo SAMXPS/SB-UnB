@@ -1,13 +1,22 @@
 #include "bytecode_map.h"
 
+int   is_instruction_map_loaded = 0;
+
 char* instruction_map[256] = {0};
 int   instruction_arg_count[256] = {0};
-int   is_instruction_map_loaded = 0;
+void (*instruction_handler[256])();
+
+void f_aaload() {
+    // executar lógica da instrução
+}
 
 void load_instruction_map() {
     if (is_instruction_map_loaded) 
         return;
+
     instruction_map[0x32]="aaload";
+    instruction_handler[0x32] = f_aaload;
+
     instruction_map[0x53]="aastore";
     instruction_map[0x01]="aconst_null";
     instruction_map[0x19]="aload"; instruction_arg_count[0x19] = 1;
