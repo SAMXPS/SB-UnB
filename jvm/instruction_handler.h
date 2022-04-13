@@ -1,5 +1,6 @@
 #include "class/class_definitions.h"
 #include "class/bytecode_map.h"
+#include "instructions.h"
 
 u1      read_opcode();
 u1      has_operands(u1 opcode);
