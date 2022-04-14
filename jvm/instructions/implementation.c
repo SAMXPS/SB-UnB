@@ -291,7 +291,17 @@ void f_dconst_1() {
 }
 
 void f_ddiv() {
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// result is value1 / value2
+	component to_push = {.type=NUMERIC,._double=(value1._double/value2._double)};
+	i_push(to_push);
 }
 
 void f_dload() {
@@ -473,7 +483,17 @@ void f_fconst_2() {
 }
 
 void f_fdiv() {
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// result is value1 / value2
+	component to_push = {.type=NUMERIC,._float=(value1._float/value2._float)};
+	i_push(to_push);
 }
 
 void f_fload() {
@@ -658,8 +678,19 @@ void f_iconst_5() {
 
 }
 
+// Divide int
 void f_idiv() {
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// result is value1 / value2
+	component to_push = {.type=NUMERIC,._int=(value1._int/value2._int)};
+	i_push(to_push);
 }
 
 void f_if_acmpeq() {
@@ -1000,7 +1031,17 @@ void f_ldc2_w() {
 }
 
 void f_ldiv() {
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// result is value1 / value2
+	component to_push = {.type=NUMERIC,._long=(value1._long/value2._long)};
+	i_push(to_push);
 }
 
 void f_lload() {
