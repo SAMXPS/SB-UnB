@@ -329,24 +329,33 @@ void f_ddiv() {
 	i_push(to_push);
 }
 
-void f_dload() {
+void f_dload_n(int index)  {
+	local_variable2 var = i_local_variable2(index);
+	if (i_has_exception())
+		return;
+	component to_push = {.type=NUMERIC,._double=var._double};
+	i_push(to_push);
+}
 
+void f_dload() {
+	u2 index = i_is_wide() ? i_read_code_u2() : i_read_code_u1();
+	f_dload_n(index);
 }
 
 void f_dload_0() {
-
+	f_dload_n(0);
 }
 
 void f_dload_1() {
-
+	f_dload_n(1);
 }
 
 void f_dload_2() {
-
+	f_dload_n(2);
 }
 
 void f_dload_3() {
-
+	f_dload_n(3);
 }
 
 void f_dmul() {
@@ -552,24 +561,33 @@ void f_fdiv() {
 	i_push(to_push);
 }
 
-void f_fload() {
+void f_fload_n(int n) {
+	local_variable var = i_local_variable(n);
+	if (i_has_exception())
+		return;
+	component to_push = {.type=NUMERIC,._float=var._float};
+	i_push(to_push);
+}
 
+void f_fload() {
+	u2 index = i_is_wide() ? i_read_code_u2() : i_read_code_u1();
+	f_fload_n(index);
 }
 
 void f_fload_0() {
-
+	f_fload_n(0);
 }
 
 void f_fload_1() {
-
+	f_fload_n(1);
 }
 
 void f_fload_2() {
-
+	f_fload_n(2);
 }
 
 void f_fload_3() {
-
+	f_fload_n(3);
 }
 
 void f_fmul() {
@@ -1213,24 +1231,33 @@ void f_ldiv() {
 	i_push(to_push);
 }
 
-void f_lload() {
+void f_lload_n(int index) {
+	local_variable2 var = i_local_variable2(index);
+	if (i_has_exception())
+		return;
+	component to_push = {.type=NUMERIC,._long=var._long};
+	i_push(to_push);
+}
 
+void f_lload() {
+	u2 index = i_is_wide() ? i_read_code_u2() : i_read_code_u1();
+	f_lload_n(index);
 }
 
 void f_lload_0() {
-
+	f_lload_n(0);
 }
 
 void f_lload_1() {
-
+	f_lload_n(1);
 }
 
 void f_lload_2() {
-
+	f_lload_n(2);
 }
 
 void f_lload_3() {
-
+	f_lload_n(3);
 }
 
 void f_lmul() {
