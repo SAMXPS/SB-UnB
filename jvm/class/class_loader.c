@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h> // memcpy
+#include <dirent.h> // diretorios
 #include "class_loader.h"
 #include "utf8_utils.h"
 
@@ -224,11 +225,34 @@ void free_class_file(class_file* class) {
     }
 }
 
+int load_class_folder(char* folder, class_file** dest) {
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(folder);
+    u2 class_count = 0;
+    char temp[128];
+    if (d) {
+        while ((dir = readdir(d)) != NULL) {
+            if (strstr(dir->d_name, ".class")) {
+                temp[0] = 0;
+                strcat(temp, folder);
+                strcat(temp, dir->d_name);
+                class_file* clazz = load_class_file(temp);
+                if (clazz) {
+                    dest[class_count++] = clazz;
+                }
+            }
+        }
+        closedir(d);
+    }
+    return class_count;
+}
+
 class_file* load_class_file(const char*filename) {
     void* data = copy_class_file_to_ram(filename);
     
     if (!data) {
-        printf("Erro ao abrir o arquivo\n");
+        printf("Erro ao abrir o arquivo\r\n");
         return 0;
     }
     
@@ -238,7 +262,7 @@ class_file* load_class_file(const char*filename) {
     class->magic = u4_readp(&data);
 
     if (class->magic != 0xCAFEBABE) {
-        printf("Identificador CAFEBABE não encontrado no arquivo de classe.\n");
+        printf("Identificador CAFEBABE não encontrado no arquivo de classe.\r\n");
         free_class_file(class);
         return 0;
     }
@@ -248,7 +272,7 @@ class_file* load_class_file(const char*filename) {
     class->constant_pool_count = u2_readp(&data);
 
     if (!load_constant_pool(&data, class)) {
-        printf("Erro ao carregar pool de constantes.\n");
+        printf("Erro ao carregar pool de constantes.\r\n");
         free_class_file(class);
         return 0;
     }
@@ -259,7 +283,7 @@ class_file* load_class_file(const char*filename) {
     class->interfaces_count = u2_readp(&data);
 
     if (!load_interfaces(class, &data)) {
-        printf("Erro ao carregar interfaces.\n");
+        printf("Erro ao carregar interfaces.\r\n");
         free_class_file(class);
         return 0;
     }
@@ -267,7 +291,7 @@ class_file* load_class_file(const char*filename) {
     class->fields_count = u2_readp(&data);
 
     if (!load_fields(class, &data)) {
-        printf("Erro ao carregar fields.\n");
+        printf("Erro ao carregar fields.\r\n");
         free_class_file(class);
         return 0;
     }
@@ -275,7 +299,7 @@ class_file* load_class_file(const char*filename) {
     class->methods_count = u2_readp(&data);
 
     if (!load_methods(class, &data)) {
-        printf("Erro ao carregar methods.\n");
+        printf("Erro ao carregar methods.\r\n");
         free_class_file(class);
         return 0;
     }
@@ -284,10 +308,12 @@ class_file* load_class_file(const char*filename) {
     class->attributes = load_attributes(&data, class->attributes_count);
 
     if (!class->attributes) {
-        printf("Erro ao carregar attributes.\n");
+        printf("Erro ao carregar attributes.\r\n");
         free_class_file(class);
         return 0;
     }
+
+    printf("Classe %s carregada com sucesso.\r\n", filename);
 
     return class;
 }
