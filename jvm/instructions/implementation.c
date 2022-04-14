@@ -240,184 +240,995 @@ void f_checkcast() {
 	
 }
 
-void f_d2f() {}
-void f_d2i() {}
-void f_d2l() {}
-void f_dadd() {}
-void f_daload() {}
-void f_dastore() {}
-void f_dcmpg() {}
-void f_dcmpl() {}
-void f_dconst_0() {}
-void f_dconst_1() {}
-void f_ddiv() {}
-void f_dload() {}
-void f_dload_0() {}
-void f_dload_1() {}
-void f_dload_2() {}
-void f_dload_3() {}
-void f_dmul() {}
-void f_dneg() {}
-void f_drem() {}
-void f_dreturn() {}
-void f_dstore() {}
-void f_dstore_0() {}
-void f_dstore_1() {}
-void f_dstore_2() {}
-void f_dstore_3() {}
-void f_dsub() {}
-void f_dup() {}
-void f_dup_x1() {}
-void f_dup_x2() {}
-void f_dup2() {}
-void f_dup2_x1() {}
-void f_dup2_x2() {}
-void f_f2d() {}
-void f_f2i() {}
-void f_f2l() {}
-void f_fadd() {}
-void f_faload() {}
-void f_fastore() {}
-void f_fcmpg() {}
-void f_fcmpl() {}
-void f_fconst_0() {}
-void f_fconst_1() {}
-void f_fconst_2() {}
-void f_fdiv() {}
-void f_fload() {}
-void f_fload_0() {}
-void f_fload_1() {}
-void f_fload_2() {}
-void f_fload_3() {}
-void f_fmul() {}
-void f_fneg() {}
-void f_frem() {}
-void f_freturn() {}
-void f_fstore() {}
-void f_fstore_0() {}
-void f_fstore_1() {}
-void f_fstore_2() {}
-void f_fstore_3() {}
-void f_fsub() {}
-void f_getfield() {}
-void f_getstatic() {}
-void f_goto() {}
-void f_goto_w() {}
-void f_i2b() {}
-void f_i2c() {}
-void f_i2d() {}
-void f_i2f() {}
-void f_i2l() {}
-void f_i2s() {}
-void f_iadd() {}
-void f_iaload() {}
-void f_iand() {}
-void f_iastore() {}
-void f_iconst_m1() {}
-void f_iconst_0() {}
-void f_iconst_1() {}
-void f_iconst_2() {}
-void f_iconst_3() {}
-void f_iconst_4() {}
-void f_iconst_5() {}
-void f_idiv() {}
-void f_if_acmpeq() {}
-void f_if_acmpne() {}
-void f_if_icmpeq() {}
-void f_if_icmpge() {}
-void f_if_icmpgt() {}
-void f_if_icmple() {}
-void f_if_icmplt() {}
-void f_if_icmpne() {}
-void f_ifeq() {}
-void f_ifge() {}
-void f_ifgt() {}
-void f_ifle() {}
-void f_iflt() {}
-void f_ifne() {}
-void f_ifnonnull() {}
-void f_ifnull() {}
-void f_iinc() {}
-void f_iload() {}
-void f_iload_0() {}
-void f_iload_1() {}
-void f_iload_2() {}
-void f_iload_3() {}
-void f_impdep1() {}
-void f_impdep2() {}
-void f_imul() {}
-void f_ineg() {}
-void f_instanceof() {}
-void f_invokedynamic() {}
-void f_invokeinterface() {}
-void f_invokespecial() {}
-void f_invokestatic() {}
-void f_invokevirtual() {}
-void f_ior() {}
-void f_irem() {}
-void f_ireturn() {}
-void f_ishl() {}
-void f_ishr() {}
-void f_istore() {}
-void f_istore_0() {}
-void f_istore_1() {}
-void f_istore_2() {}
-void f_istore_3() {}
-void f_isub() {}
-void f_iushr() {}
-void f_ixor() {}
-void f_jsr() {}
-void f_jsr_w() {}
-void f_l2d() {}
-void f_l2f() {}
-void f_l2i() {}
-void f_ladd() {}
-void f_laload() {}
-void f_land() {}
-void f_lastore() {}
-void f_lcmp() {}
-void f_lconst_0() {}
-void f_lconst_1() {}
-void f_ldc() {}
-void f_ldc_w() {}
-void f_ldc2_w() {}
-void f_ldiv() {}
-void f_lload() {}
-void f_lload_0() {}
-void f_lload_1() {}
-void f_lload_2() {}
-void f_lload_3() {}
-void f_lmul() {}
-void f_lneg() {}
-void f_lookupswitch() {}
-void f_lor() {}
-void f_lrem() {}
-void f_lreturn() {}
-void f_lshl() {}
-void f_lshr() {}
-void f_lstore() {}
-void f_lstore_0() {}
-void f_lstore_1() {}
-void f_lstore_2() {}
-void f_lstore_3() {}
-void f_lsub() {}
-void f_lushr() {}
-void f_lxor() {}
-void f_monitorenter() {}
-void f_monitorexit() {}
-void f_multianewarray() {}
-void f_new() {}
-void f_newarray() {}
-void f_nop() {}
-void f_pop() {}
-void f_pop2() {}
-void f_putfield() {}
-void f_putstatic() {}
-void f_ret() {}
-void f_return() {}
-void f_saload() {}
-void f_sastore() {}
-void f_sipush() {}
-void f_swap() {}
-void f_tableswitch() {}
-void f_wide() {}
+void f_d2f() {
+
+}
+
+void f_d2i() {
+
+}
+
+void f_d2l() {
+
+}
+
+void f_dadd() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component ret = {.type=NUMERIC,._double = (value1._double + value2._double)};
+
+	i_push(ret);
+}
+
+void f_daload() {
+
+}
+
+void f_dastore() {
+
+}
+
+void f_dcmpg() {
+
+}
+
+void f_dcmpl() {
+
+}
+
+void f_dconst_0() {
+
+}
+
+void f_dconst_1() {
+
+}
+
+void f_ddiv() {
+
+}
+
+void f_dload() {
+
+}
+
+void f_dload_0() {
+
+}
+
+void f_dload_1() {
+
+}
+
+void f_dload_2() {
+
+}
+
+void f_dload_3() {
+
+}
+
+void f_dmul() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._double=(value1._double*value2._double)};
+	i_push(to_push);
+}
+
+void f_dneg() {
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	component to_push = {.type=NUMERIC,._double=(value1._double*(-1))};
+	i_push(to_push);
+}
+
+void f_drem() {
+
+}
+
+void f_dreturn() {
+
+}
+
+void f_dstore() {
+
+}
+
+void f_dstore_0() {
+
+}
+
+void f_dstore_1() {
+
+}
+
+void f_dstore_2() {
+
+}
+
+void f_dstore_3() {
+
+}
+
+void f_dsub() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// TODO type conversion??
+	// result is value1 - value2
+	component to_push = {.type=NUMERIC,._double=(value1._double-value2._double)};
+	i_push(to_push);
+}
+
+void f_dup() {
+	component to_dup = i_pop();
+	i_push(to_dup);
+	i_push(to_dup);
+}
+
+void f_dup_x1() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+	i_push(value1);
+	i_push(value2);
+	i_push(value1);
+}
+
+void f_dup_x2() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+	component value3 = i_pop();
+	i_push(value1);
+	i_push(value3);
+	i_push(value2);
+	i_push(value1);
+}
+
+void f_dup2() {
+	// Cat 2???
+}
+
+void f_dup2_x1() {
+
+}
+
+void f_dup2_x2() {
+
+}
+
+void f_f2d() {
+
+}
+
+void f_f2i() {
+
+}
+
+void f_f2l() {
+
+}
+
+void f_fadd() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component ret = {.type=NUMERIC,._float = (value1._float + value2._float)};
+
+	i_push(ret);
+}
+
+void f_faload() {
+
+}
+
+void f_fastore() {
+
+}
+
+void f_fcmpg() {
+
+}
+
+void f_fcmpl() {
+
+}
+
+void f_fconst_0() {
+
+}
+
+void f_fconst_1() {
+
+}
+
+void f_fconst_2() {
+
+}
+
+void f_fdiv() {
+
+}
+
+void f_fload() {
+
+}
+
+void f_fload_0() {
+
+}
+
+void f_fload_1() {
+
+}
+
+void f_fload_2() {
+
+}
+
+void f_fload_3() {
+
+}
+
+void f_fmul() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._float=(value1._float*value2._float)};
+	i_push(to_push);
+}
+
+void f_fneg() {
+
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	component to_push = {.type=NUMERIC,._float=(value1._float*(-1))};
+	i_push(to_push);
+}
+
+void f_frem() {
+
+}
+
+void f_freturn() {
+
+}
+
+void f_fstore() {
+
+}
+
+void f_fstore_0() {
+
+}
+
+void f_fstore_1() {
+
+}
+
+void f_fstore_2() {
+
+}
+
+void f_fstore_3() {
+
+}
+
+void f_fsub() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// TODO type conversion??
+	// result is value1 - value2
+	component to_push = {.type=NUMERIC,._float=(value1._float-value2._float)};
+	i_push(to_push);
+}
+
+void f_getfield() {
+
+}
+
+void f_getstatic() {
+
+}
+
+void f_goto() {
+
+}
+
+void f_goto_w() {
+
+}
+
+void f_i2b() {
+	
+}
+
+void f_i2c() {
+
+}
+
+void f_i2d() {
+
+}
+
+void f_i2f() {
+
+}
+
+void f_i2l() {
+
+}
+
+void f_i2s() {
+
+}
+
+void f_iadd() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component ret = {.type=NUMERIC,._int = (value1._int + value2._int)};
+
+	i_push(ret);
+}
+
+void f_iaload() {
+
+}
+
+void f_iand() {
+
+}
+
+void f_iastore() {
+
+}
+
+void f_iconst_m1() {
+
+}
+
+void f_iconst_0() {
+
+}
+void f_iconst_1() {
+
+}
+
+void f_iconst_2() {
+
+}
+
+void f_iconst_3() {
+
+}
+
+void f_iconst_4() {
+
+}
+
+void f_iconst_5() {
+
+}
+
+void f_idiv() {
+
+}
+
+void f_if_acmpeq() {
+
+}
+
+void f_if_acmpne() {
+
+}
+
+void f_if_icmpeq() {
+
+}
+
+void f_if_icmpge() {
+
+}
+
+void f_if_icmpgt() {
+
+}
+
+void f_if_icmple() {
+
+}
+
+void f_if_icmplt() {
+
+}
+
+void f_if_icmpne() {
+
+}
+
+void f_ifeq() {
+
+}
+
+void f_ifge() {
+
+}
+
+void f_ifgt() {
+
+}
+
+void f_ifle() {
+
+}
+
+void f_iflt() {
+
+}
+
+void f_ifne() {
+
+}
+
+void f_ifnonnull() {
+
+}
+
+void f_ifnull() {
+
+}
+
+void f_iinc() {
+
+}
+
+void f_iload_n(int n) {
+	local_variable var = i_local_variable(n);
+	if (i_has_exception())
+		return;
+	component to_push = {.type=NUMERIC,._int=var._int};
+	i_push(to_push);
+}
+
+// Load int from local variable
+void f_iload() {
+	u2 index = i_is_wide() ? i_read_code_u2() : i_read_code_u1();
+	f_iload_n(index);
+}
+
+void f_iload_0() {
+	f_iload_n(0);
+}
+
+void f_iload_1() {
+	f_iload_n(1);
+}
+
+void f_iload_2() {
+	f_iload_n(2);
+}
+
+void f_iload_3() {
+	f_iload_n(3);
+}
+
+void f_impdep1() {
+
+}
+
+void f_impdep2() {
+
+}
+
+// Multiply int
+void f_imul() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=(value1._int*value2._int)};
+	i_push(to_push);
+}
+
+// Negate int
+void f_ineg() {
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	component to_push = {.type=NUMERIC,._int=(value1._int*(-1))};
+	i_push(to_push);
+}
+
+void f_instanceof() {
+
+}
+
+void f_invokedynamic() {
+
+}
+
+void f_invokeinterface() {
+
+}
+
+void f_invokespecial() {
+
+}
+
+void f_invokestatic() {
+
+}
+
+void f_invokevirtual() {
+
+}
+
+void f_ior() {
+
+}
+
+void f_irem() {
+
+}
+
+void f_ireturn() {
+
+}
+
+void f_ishl() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	int s = (value2._int)&(0x1F);
+	
+	component to_push = {.type=NUMERIC,._int=(value1._int<<s)};
+	i_push(to_push);
+}
+
+void f_ishr() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	int s = (value2._int)&(0x1F);
+	
+	component to_push = {.type=NUMERIC,._int=(value1._int>>s)};
+	i_push(to_push);
+}
+
+// Store int into local variable
+void f_istore_n(int index) {
+	component value = i_pop();
+	
+	if (value.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+	local_variable var = {._int=value._int};
+	i_local_variable_set(index, var);
+}
+
+void f_istore() {
+	f_istore_n(i_is_wide() ? i_read_code_u2() : i_read_code_u1());
+}
+
+void f_istore_0() {
+	f_istore_n(0);
+}
+
+void f_istore_1() {
+	f_istore_n(1);
+}
+
+void f_istore_2() {
+	f_istore_n(2);
+}
+
+void f_istore_3() {
+	f_istore_n(3);
+}
+
+// Subtract int
+void f_isub() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// result is value1 - value2
+	component to_push = {.type=NUMERIC,._int=(value1._int-value2._int)};
+	i_push(to_push);
+}
+
+// Logical shift right int
+void f_iushr() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	int s = (value2._int)&(0x1F);
+
+	// An int result is calculated by shifting value1 right by s bit positions, with zero extension, where s is the value of the low 5 bits of value2. 
+	component to_push = {.type=NUMERIC,._uint=(value1._uint>>s)};
+	i_push(to_push);
+}
+
+void f_ixor() {
+
+}
+
+void f_jsr() {
+
+}
+
+void f_jsr_w() {
+
+}
+
+void f_l2d() {
+
+}
+
+void f_l2f() {
+
+}
+
+void f_l2i() {
+
+}
+
+void f_ladd() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component ret = {.type=NUMERIC,._long = (value1._long + value2._long)};
+	
+	i_push(ret);
+}
+
+void f_laload() {
+
+}
+
+void f_land() {
+
+}
+
+void f_lastore() {
+
+}
+
+void f_lcmp() {
+
+}
+
+void f_lconst_0() {
+
+}
+
+void f_lconst_1() {
+
+}
+
+void f_ldc() {
+
+}
+
+void f_ldc_w() {
+
+}
+
+void f_ldc2_w() {
+
+}
+
+void f_ldiv() {
+
+}
+
+void f_lload() {
+
+}
+
+void f_lload_0() {
+
+}
+
+void f_lload_1() {
+
+}
+
+void f_lload_2() {
+
+}
+
+void f_lload_3() {
+
+}
+
+void f_lmul() {
+	component value1 = i_pop();
+	component value2 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._long=(value1._long*value2._long)};
+	i_push(to_push);
+}
+
+void f_lneg() {
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	component to_push = {.type=NUMERIC,._long=(value1._long*(-1))};
+	i_push(to_push);
+}
+
+void f_lookupswitch() {
+
+}
+
+void f_lor() {
+
+}
+
+void f_lrem() {
+
+}
+
+void f_lreturn() {
+
+}
+
+void f_lshl() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	int s = (value2._int)&(0x3F);
+	
+	component to_push = {.type=NUMERIC,._long=(value1._long<<s)};
+	i_push(to_push);
+}
+
+void f_lshr() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	int s = (value2._int)&(0x3F);
+	
+	component to_push = {.type=NUMERIC,._long=(value1._long>>s)};
+	i_push(to_push);
+}
+
+void f_lstore() {
+
+}
+
+void f_lstore_0() {
+
+}
+
+void f_lstore_1() {
+
+}
+
+void f_lstore_2() {
+
+}
+
+void f_lstore_3() {
+
+}
+
+void f_lsub() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// result is value1 - value2
+	component to_push = {.type=NUMERIC,._long=(value1._long-value2._long)};
+	i_push(to_push);
+}
+
+void f_lushr() {
+	component value2 = i_pop();
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	int s = (value2._int)&(0x3F);
+	
+	component to_push = {.type=NUMERIC,._ulong=(value1._ulong>>s)};
+	i_push(to_push);
+}
+
+void f_lxor() {
+
+}
+
+void f_monitorenter() {
+	// Não implementado
+}
+
+void f_monitorexit() {
+	// Não implementado
+}
+
+void f_multianewarray() {
+
+}
+
+void f_new() {
+
+}
+
+void f_newarray() {
+
+}
+
+// Do nothing
+void f_nop() {
+	// Instrução mais legal de implementar :)
+	// Deixa qualquer programador feliz ler: Do nothing
+}
+
+void f_pop() {
+	i_pop();
+}
+
+void f_pop2() {
+	// cat 2 deve ser assim? vamos assumir....
+	i_pop();
+	i_pop();
+}
+
+void f_putfield() {
+
+}
+
+void f_putstatic() {
+
+}
+
+void f_ret() {
+
+}
+
+void f_return() {
+	component c = {.type=VOID_RETURN,.u8=0L};
+	i_return(c);
+}
+
+void f_saload() {
+
+}
+
+void f_sastore() {
+
+}
+
+void f_sipush() {
+	u2 sshort = i_read_code_u2();
+
+	s4 extend = (s4)(*((s2*)&sshort));
+	component to_push = {.type=NUMERIC,._int=extend};
+
+	i_push(to_push);
+}
+
+// Swap the top two operand stack values
+void f_swap() {
+	component value_1 = i_pop();
+	component value_2 = i_pop();
+	i_push(value_1);
+	i_push(value_2);
+}
+
+void f_tableswitch() {
+	// TODO
+}
+
+void f_wide() {
+	i_set_wide();
+}

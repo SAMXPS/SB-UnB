@@ -9,6 +9,7 @@ local_variable      i_local_variable(u2 position);
 void                i_local_variable_set(u2 position, local_variable value);
 int                 i_has_exception();
 int                 i_is_wide();
+void                i_set_wide();
 u1                  i_read_code_u1();
 u2                  i_read_code_u2();
 component           i_create_array(int type_index, int len);

@@ -19,6 +19,18 @@ enum {
     NUMERIC,
     BOOLEAN,
     RETURN_ADDRESS,
+    VOID_RETURN,
+};
+
+enum {
+    T_BOOLEAN=4,
+    T_CHAR=5,
+    T_FLOAT=6,
+    T_DOUBLE=7,
+    T_BYTE=8,
+    T_SHORT=9,
+    T_INT=10,
+    T_LONG=11,
 };
 
 typedef uint32_t component_type;
@@ -46,7 +58,7 @@ typedef struct  {
     };
 } component;
 
-extern component NULL_COMPONENT;
+const extern component NULL_COMPONENT;
 
 typedef struct  {
     union {
