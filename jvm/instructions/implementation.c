@@ -602,27 +602,79 @@ void f_goto_w() {
 }
 
 void f_i2b() {
-	
+	component value1 = i_pop();
+
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+	// truncated to a byte, then sign-extended to an int result
+	s1 my_byte = value1._int;
+	component to_push = {.type=NUMERIC,._int=(s4)my_byte};
+	i_push(to_push);
+
 }
 
 void f_i2c() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	// truncated to char, then zero-extended to an int result
+	u1 my_char = value1._int;
+	component to_push = {.type=NUMERIC,._uint=(u4)my_char};
+	i_push(to_push);
 }
 
 void f_i2d() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._double=(double) value1._int};
+	i_push(to_push);
 }
 
 void f_i2f() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._float=(float) value1._int};
+	i_push(to_push);
 }
 
 void f_i2l() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._long=(s4) value1._int};
+	i_push(to_push);
 }
 
 void f_i2s() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=((s2) value1._int)};
+	i_push(to_push);
 }
 
 void f_iadd() {
