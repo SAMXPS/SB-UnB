@@ -76,6 +76,14 @@ typedef struct  {
     };
 } local_variable;
 
+typedef struct  {
+    union {
+        s8              _long;
+        u8              _ulong;
+        double          _double;
+    };
+} local_variable2;
+
 typedef struct {
     u4              len;
     component_type  type;

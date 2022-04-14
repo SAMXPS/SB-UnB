@@ -6,7 +6,9 @@
 void                i_push(component data);
 component           i_pop();
 local_variable      i_local_variable(u2 position);
+local_variable2     i_local_variable2(u2 position);
 void                i_local_variable_set(u2 position, local_variable value);
+void                i_local_variable_set2(u2 position, local_variable2 value);
 int                 i_has_exception();
 int                 i_is_wide();
 void                i_set_wide();

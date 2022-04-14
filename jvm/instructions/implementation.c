@@ -241,15 +241,39 @@ void f_checkcast() {
 }
 
 void f_d2f() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._float=value1._double};
+	i_push(to_push);
 }
 
 void f_d2i() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=value1._double};
+	i_push(to_push);
 }
 
 void f_d2l() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._long=value1._double};
+	i_push(to_push);
 }
 
 void f_dadd() {
@@ -267,7 +291,8 @@ void f_dadd() {
 }
 
 void f_daload() {
-
+	// TODO: checar
+	f_aaload();
 }
 
 void f_dastore() {
@@ -357,24 +382,30 @@ void f_dreturn() {
 
 }
 
-void f_dstore() {
+void f_dstore_n(int index) {
+	component objectref = i_pop();
+	local_variable2 var = {._double=objectref._double};
+	i_local_variable_set2(index, var);
+}
 
+void f_dstore() {
+	f_dstore_n(i_is_wide() ? i_read_code_u2() : i_read_code_u1());
 }
 
 void f_dstore_0() {
-
+	f_dstore_n(0);
 }
 
 void f_dstore_1() {
-
+	f_dstore_n(1);
 }
 
 void f_dstore_2() {
-
+	f_dstore_n(2);
 }
 
 void f_dstore_3() {
-
+	f_dstore_n(3);
 }
 
 void f_dsub() {
@@ -429,15 +460,39 @@ void f_dup2_x2() {
 }
 
 void f_f2d() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._double=value1._float};
+	i_push(to_push);
 }
 
 void f_f2i() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=value1._float};
+	i_push(to_push);
 }
 
 void f_f2l() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._long=value1._float};
+	i_push(to_push);
 }
 
 void f_fadd() {
@@ -455,7 +510,8 @@ void f_fadd() {
 }
 
 void f_faload() {
-
+	// TODO: checar
+	f_aaload();
 }
 
 void f_fastore() {
@@ -612,7 +668,6 @@ void f_i2b() {
 	s1 my_byte = value1._int;
 	component to_push = {.type=NUMERIC,._int=(s4)my_byte};
 	i_push(to_push);
-
 }
 
 void f_i2c() {
@@ -625,7 +680,7 @@ void f_i2c() {
 
 	// truncated to char, then zero-extended to an int result
 	u1 my_char = value1._int;
-	component to_push = {.type=NUMERIC,._uint=(u4)my_char};
+	component to_push = {.type=NUMERIC,._int=(u4)my_char};
 	i_push(to_push);
 }
 
@@ -692,11 +747,21 @@ void f_iadd() {
 }
 
 void f_iaload() {
-
+	// TODO: checar
+	f_aaload();
 }
 
 void f_iand() {
+	component value1 = i_pop();
+	component value2 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=(value1._int&value2._int)};
+	i_push(to_push);
 }
 
 void f_iastore() {
@@ -903,7 +968,16 @@ void f_invokevirtual() {
 }
 
 void f_ior() {
+	component value1 = i_pop();
+	component value2 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=(value1._int|value2._int)};
+	i_push(to_push);
 }
 
 void f_irem() {
@@ -1009,7 +1083,16 @@ void f_iushr() {
 }
 
 void f_ixor() {
+	component value1 = i_pop();
+	component value2 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=(value1._int^value2._int)};
+	i_push(to_push);
 }
 
 void f_jsr() {
@@ -1021,15 +1104,39 @@ void f_jsr_w() {
 }
 
 void f_l2d() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._double=value1._long};
+	i_push(to_push);
 }
 
 void f_l2f() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._float=value1._long};
+	i_push(to_push);
 }
 
 void f_l2i() {
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._int=value1._long};
+	i_push(to_push);
 }
 
 void f_ladd() {
@@ -1047,11 +1154,21 @@ void f_ladd() {
 }
 
 void f_laload() {
-
+	// TODO: checar
+	f_aaload();
 }
 
 void f_land() {
+	component value1 = i_pop();
+	component value2 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._long=(value1._long&value2._long)};
+	i_push(to_push);
 }
 
 void f_lastore() {
@@ -1146,7 +1263,16 @@ void f_lookupswitch() {
 }
 
 void f_lor() {
+	component value1 = i_pop();
+	component value2 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._long=(value1._long|value2._long)};
+	i_push(to_push);
 }
 
 void f_lrem() {
@@ -1187,24 +1313,30 @@ void f_lshr() {
 	i_push(to_push);
 }
 
-void f_lstore() {
+void f_lstore_n(int index) {
+	component objectref = i_pop();
+	local_variable2 var = {._long=objectref._long};
+	i_local_variable_set2(index, var);
+}
 
+void f_lstore() {
+	f_lstore_n(i_is_wide() ? i_read_code_u2() : i_read_code_u1());
 }
 
 void f_lstore_0() {
-
+	f_lstore_n(0);
 }
 
 void f_lstore_1() {
-
+	f_lstore_n(1);
 }
 
 void f_lstore_2() {
-
+	f_lstore_n(2);
 }
 
 void f_lstore_3() {
-
+	f_lstore_n(3);
 }
 
 void f_lsub() {
@@ -1237,15 +1369,26 @@ void f_lushr() {
 }
 
 void f_lxor() {
+	component value1 = i_pop();
+	component value2 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC){
+		i_throw(RuntimeException);
+		return;
+	}
+
+	component to_push = {.type=NUMERIC,._long=(value1._long^value2._long)};
+	i_push(to_push);
 }
 
 void f_monitorenter() {
 	// Não implementado
+	i_throw(RuntimeException);
 }
 
 void f_monitorexit() {
 	// Não implementado
+	i_throw(RuntimeException);
 }
 
 void f_multianewarray() {
@@ -1294,7 +1437,8 @@ void f_return() {
 }
 
 void f_saload() {
-
+	// TODO: checar
+	f_aaload();
 }
 
 void f_sastore() {
