@@ -106,7 +106,8 @@ typedef struct {
 } c_interface;
 
 typedef struct {
-
+    class_file* class_file;
+    int         initialized;
 } c_class;
 
 typedef struct {

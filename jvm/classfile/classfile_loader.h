@@ -10,9 +10,9 @@ u8              u8_readp(void** data);
 
 class_file*     load_class_file(const char*filename);
 int             load_class_folder(char* folder, class_file** dest);
-void            free_class_file(class_file* class);
+void            free_class_file(class_file* clazz);
 
-attribute_Code* load_attribute_code(class_file* class, attribute_info* info);
+attribute_Code* load_attribute_code(class_file* clazz, attribute_info* info);
 void            free_attribute_code(attribute_Code* data);
 
 #endif//CLASS_LOADER_H

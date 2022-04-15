@@ -3,8 +3,9 @@
 #include <string.h>
 #include "classfile_definitions.h"
 #include "classfile_loader.h"
-
-#define MAX_CLASS_FILES 32
+#include "linker.h"
+#include "loader.h"
+#include "initializer.h"
 
 const component NULL_COMPONENT = {.type=NULL_REFERENCE,.u8=0L};
 frame_stack* fstack = 0;
@@ -73,27 +74,29 @@ void fstack_new(class_file* clazz) {
     fstack_push(f);
 }
 
+void print_usage() {
+    printf("Uso da JVM:\r\n jvm [opcoes] <MainClassName>\r\n");
+    printf("Opcoces:\r\n");
+    printf("\t--folder <folder>\tEspecificar uma pasta que contem uma serie de classes a serem carregadas.\r\n");
+    printf("\t--exibir\tNao executar as classes, apenas rodar o leitor-exibidor.\r\n");
+}
+
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        printf("Uso da JVM:\r\n jvm [opcoes] <class1_file> [class2_file] [...] [classN_file]\r\n");
-        printf("Opcoces:\r\n");
-        printf("\t--folder\tEspecificar uma pasta que contem uma serie de classes a serem carregadas.\r\n");
-        printf("\t--exibir\tNao executar as classes, apenas rodar o leitor-exibidor.\r\n");
-        return 0;
+        print_usage();
+        return;
     }
 
-    class_file* classes[MAX_CLASS_FILES];
     u2 class_count = 0;
     u1 leitor_exibidor = 0;
+    char* main_class_name = 0;
 
     for (int i = 1; i < argc; i++) {
-
         // Tentamos decodificar uma opcao
         if (argv[i][0] == '-') {
             if (argv[i][1] == '-' && strcmp(argv[i]+2,"folder") == 0) {
                 char* folder = argv[++i];
-                printf("Lendo classes na pasta %s...\r\n", folder);
-                class_count += load_class_folder(folder, classes + class_count);
+                add_class_folder(folder);
             }
 
             if (argv[i][1] == '-' && strcmp(argv[i]+2,"exibir") == 0) {
@@ -102,23 +105,27 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
-        printf("Lendo arquivo %s...\r\n", argv[i]);
-        class_file* clazz = load_class_file(argv[i]);
-        if (clazz) {
-            classes[class_count++] = clazz;
-        }
+        main_class_name = argv[i];
+    }
+
+    if (!main_class_name) {
+        printf("Classe Main não informada... \r\n");
+        print_usage();
+        return;
     }
 
     if (leitor_exibidor) {
+        // todo: ....
         for (int i = 0; i < class_count; i++) {
-            view_class_file(classes[i]);
+
         }
     } else {
-        // TODO: executar programa
-    }
-
-    for (int i = 0; i < class_count; i++) {
-        free_class_file(classes[i]);
+        c_class* main_class = get_class(main_class_name);
+        if (!main_class) {
+            printf("Não foi possível carregar a JVM com classe main informada.\r\n");
+            return 0;
+        }
+        run_main(main_class);
     }
     return 0;
 }
