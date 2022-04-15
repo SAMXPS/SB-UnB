@@ -116,6 +116,7 @@ typedef struct c_method {
     u1*                 code;
     attribute_Code*     atr_code;
     u2                  access_flags;
+    struct c_class*     clazz;
 } c_method;
 
 typedef struct c_class {

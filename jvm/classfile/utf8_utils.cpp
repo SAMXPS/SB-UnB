@@ -29,6 +29,14 @@ std::string utf8_load_constant_pool_class_name_indirect(class_file* clazz, u2 in
     return utf8_load_constant_pool(clazz, clazz->constant_pool[index-1]->data.Clazz.name_index);
 }
 
+std::string utf8_load_constant_pool_name_and_type_type(class_file* clazz, u2 index) {
+    return utf8_load_constant_pool(clazz, clazz->constant_pool[index-1]->data.NameAndType.descriptor_index);
+}
+
+std::string utf8_load_constant_pool_name_and_type_name(class_file* clazz, u2 index) {
+    return utf8_load_constant_pool(clazz, clazz->constant_pool[index-1]->data.NameAndType.name_index);
+}
+
 void utf8_print(UTF8_String* str) {
     // TODO: Tratar melhor Utf8
     for (int i = 0; i < str->length; i++) {

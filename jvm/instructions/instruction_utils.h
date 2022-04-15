@@ -14,6 +14,11 @@ int                 i_has_exception();
 int                 i_is_wide();
 void                i_set_wide();
 void                i_add_to_pc(int offset);
+cp_info*            i_read_cp(int index);
+c_method*           i_find_method(cp_info* method_ref);
+void                i_invoke_static(c_method* method);
+void                i_invoke_virtual(c_method* method);
+void                i_invoke_special(c_method* method);
 u1                  i_read_code_u1();
 u2                  i_read_code_u2(); // nao altera o pc diretamente, usa uma variavel next_pc....
 component           i_create_array(int type_index, int len);

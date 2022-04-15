@@ -16,6 +16,7 @@ void initialize_class(c_class* clazz) {
     for (int i = 0; i < fmethods_count; i++) {
         c_method method;
         method_info f_method = fmethods[i];
+        method.clazz = clazz;
         method.name = utf8_load_constant_pool(clazz->class_file, f_method.name_index);
         method.descriptor = utf8_load_constant_pool(clazz->class_file, f_method.descriptor_index);
         method.access_flags = f_method.access_flags;

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "instruction_utils.h"
 #include "classfile_definitions.h"
 #include "classfile_loader.h"
 #include "instruction_map.h"
@@ -9,10 +10,13 @@
 #include "linker.h"
 #include "loader.h"
 #include "initializer.h"
+#include "utf8_utils.h"
 
 int debug = 1;
 const component NULL_COMPONENT = {0};
 frame_stack* fstack = 0;
+u1* next_pc;
+void (*instruction)();
 
 void i_push(component data) {
     if (fstack_empty())
@@ -74,16 +78,60 @@ void i_add_to_pc(int offset) {
 }
 
 u1 i_read_code_u1() {
-    // TODO
-    // nao altera o pc diretamente, usa uma variavel next_pc...
-    exit_jvm("i_read_code_u1 nao implementada");
+    return *(next_pc++);
 }
 
 u2 i_read_code_u2() {
-    // TODO
-    // nao altera o pc diretamente, usa uma variavel next_pc...
-    exit_jvm("i_read_code_u2 nao implementada");
-} 
+    u1* u1ptr = next_pc;
+    u2 uzhort = (u2)(u1ptr[0]) << 8 | (u2)u1ptr[1];
+    next_pc+=2;
+    return uzhort;
+}
+
+cp_info* i_read_cp(int index) {
+    class_file* current_class = fstack_top()->clazz->class_file;
+    return current_class->constant_pool[index-1];
+}
+
+c_method* i_find_method(cp_info* method_ref) {
+    if (!method_ref || method_ref->tag != CONSTANT_Methodref)
+        return 0;
+    
+    std::string className = utf8_load_constant_pool_class_name_indirect(fstack_top()->clazz->class_file, method_ref->data.Methodref.class_index);
+    std::string name = utf8_load_constant_pool_name_and_type_name(fstack_top()->clazz->class_file, method_ref->data.Methodref.name_and_type_index);
+    std::string type =  utf8_load_constant_pool_name_and_type_type(fstack_top()->clazz->class_file, method_ref->data.Methodref.name_and_type_index);
+    std::string nameAndType = name + type;
+
+    if (debug) 
+        printf("[DBG] Procurando metodo %s da classe %s\r\n", nameAndType.c_str(), className.c_str());
+
+    c_class* clazz = get_class(&(className[0]));
+
+    if (clazz) {
+        if (clazz->methods.find(nameAndType) != clazz->methods.end()) {
+            if (debug) 
+                printf("[DBG] Metodo encontrado!\r\n");
+            return &(clazz->methods[nameAndType]);
+        } else {
+
+        }
+    } else {
+        i_throw(ClassNotFoundException);
+    }
+}
+
+void i_invoke_static(c_method* method) {
+
+    exit_jvm("i_invoke_static nao implementada");
+}
+
+void i_invoke_virtual(c_method* method) {
+    exit_jvm("i_invoke_virtual nao implementada");
+}
+
+void i_invoke_special(c_method* method) {
+    exit_jvm("i_invoke_special nao implementada");
+}
 
 component i_create_array(int type_index, int len) {
     // TODO
@@ -144,8 +192,6 @@ void print_usage() {
     printf("\t--exibir\tNao executar as classes, apenas rodar o leitor-exibidor.\r\n");
 }
 
-u1* next_pc;
-void (*instruction)();
 
 void decode(u1 opcode) {
     instruction = instruction_handler[opcode];
@@ -154,7 +200,7 @@ void decode(u1 opcode) {
         exit_jvm();
     }
     if (debug) {
-        printf("Rodando instrucao %s\r\n", instruction_map[opcode]);
+        printf("[DBG] Rodando instrucao %s\r\n", instruction_map[opcode]);
     }
 }
 
@@ -172,6 +218,8 @@ void run() {
 void i_run_clinit(c_class* clazz) {
     if (debug) {
         printf("[DBG] Rodando clinit da classe %s\r\n", clazz->name.c_str());
+        // TOOD: remover isso quando clinit funfar legal
+        return;
     }
 
     fstack_new(clazz);
@@ -252,7 +300,7 @@ int main(int argc, char *argv[]) {
         load_instruction_map();
 
         c_class* main_class = get_class(main_class_name);
-        
+
         if (!main_class) {
             printf("[JVM] Nao foi possivel carregar a JVM com classe main informada.\r\n");
             return 0;

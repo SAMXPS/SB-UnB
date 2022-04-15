@@ -1193,23 +1193,29 @@ void f_instanceof() {
 }
 
 void f_invokedynamic() {
-
+	exit_jvm("Instrucao f_invokedynamic NAO IMPLEMENTADA.");
 }
 
 void f_invokeinterface() {
+	exit_jvm("Instrucao f_invokeinterface NAO IMPLEMENTADA.");
+}
 
+c_method* f_invoke() {
+	u2 index = i_read_code_u2();
+	cp_info* method_ref = i_read_cp(index);
+	return i_find_method(method_ref);
 }
 
 void f_invokespecial() {
-
+	i_invoke_special(f_invoke());
 }
 
 void f_invokestatic() {
-
+	i_invoke_static(f_invoke());
 }
 
 void f_invokevirtual() {
-
+	i_invoke_virtual(f_invoke());
 }
 
 void f_ior() {

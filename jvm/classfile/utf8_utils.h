@@ -17,5 +17,7 @@ void utf8_print(UTF8_String* str);
 std::string utf8_load_constant_pool(class_file* clazz, u2 index);
 
 std::string utf8_load_constant_pool_class_name_indirect(class_file* clazz, u2 index);
+std::string utf8_load_constant_pool_name_and_type_type(class_file* clazz, u2 index);
+std::string utf8_load_constant_pool_name_and_type_name(class_file* clazz, u2 index);
 
 #endif//UTF8_UTILS_H
