@@ -693,7 +693,13 @@ void f_getfield() {
 }
 
 void f_getstatic() {
-	exit_jvm("Instrucao f_getstatic NAO IMPLEMENTADA.");
+	u2 index = i_read_code_u2();
+	cp_info* field_ref = i_read_cp(index);
+	component* field = i_find_static_field(field_ref);
+	if (!field) 
+		exit_jvm("Field em f_getstatic nao encontrado.");
+	component to_push = *field;
+	i_push(to_push);
 }
 
 void f_goto() {
@@ -824,32 +830,39 @@ void f_iastore() {
 	f_aastore();
 }
 
+void f_iconst_n(int n) {
+	component to_push;
+	to_push.type=NUMERIC;
+	to_push._int = n;
+	i_push(to_push);
+}
+
 void f_iconst_m1() {
-	exit_jvm("Instrucao f_iconst_m1 NAO IMPLEMENTADA.");
+	f_iconst_n(-1);
 }
 
 void f_iconst_0() {
-	exit_jvm("Instrucao f_iconst_0 NAO IMPLEMENTADA.");
+	f_iconst_n(0);
 }
 
 void f_iconst_1() {
-	exit_jvm("Instrucao f_iconst_1 NAO IMPLEMENTADA.");
+	f_iconst_n(1);
 }
 
 void f_iconst_2() {
-	exit_jvm("Instrucao f_iconst_2 NAO IMPLEMENTADA.");
+	f_iconst_n(2);
 }
 
 void f_iconst_3() {
-	exit_jvm("Instrucao f_iconst_3 NAO IMPLEMENTADA.");
+	f_iconst_n(3);
 }
 
 void f_iconst_4() {
-	exit_jvm("Instrucao f_iconst_4 NAO IMPLEMENTADA.");
+	f_iconst_n(4);
 }
 
 void f_iconst_5() {
-	exit_jvm("Instrucao f_iconst_5 NAO IMPLEMENTADA.");
+	f_iconst_n(5);
 }
 
 // Divide int

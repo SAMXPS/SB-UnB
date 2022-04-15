@@ -13,6 +13,7 @@
 #include "utf8_utils.h"
 
 int debug = 1;
+int has_exception = 0;
 const component NULL_COMPONENT = {0};
 frame_stack* fstack = 0;
 u1* next_pc;
@@ -38,8 +39,7 @@ component i_pop() {
 }
 
 local_variable i_local_variable(u2 position) {
-    // TODO
-    exit_jvm("i_local_variable nao implementada");
+    return fstack_top()->local_variables[position];
 }
 
 local_variable2 i_local_variable2(u2 position) {
@@ -48,8 +48,7 @@ local_variable2 i_local_variable2(u2 position) {
 }
 
 void i_local_variable_set(u2 position, local_variable value) {
-    // TODO
-    exit_jvm("i_local_variable_set nao implementada");
+    fstack_top()->local_variables[position] = value;
 }
 
 void i_local_variable_set2(u2 position, local_variable2 value) {
@@ -58,8 +57,7 @@ void i_local_variable_set2(u2 position, local_variable2 value) {
 }
 
 int i_has_exception() {
-    // TODO
-    exit_jvm("i_has_exception nao implementada");
+    return has_exception;
 }
 
 int i_is_wide() {
@@ -93,6 +91,31 @@ cp_info* i_read_cp(int index) {
     return current_class->constant_pool[index-1];
 }
 
+component* i_find_static_field(cp_info* field_ref) {
+    if (!field_ref || field_ref->tag != CONSTANT_Fieldref)
+        return 0;
+    
+    std::string className = utf8_load_constant_pool_class_name_indirect(fstack_top()->clazz->class_file, field_ref->data.Fieldref.class_index);
+    std::string name = utf8_load_constant_pool_name_and_type_name(fstack_top()->clazz->class_file, field_ref->data.Fieldref.name_and_type_index);
+    std::string type =  utf8_load_constant_pool_name_and_type_type(fstack_top()->clazz->class_file, field_ref->data.Fieldref.name_and_type_index);
+
+    printf("[WARNING] typecheck de fields desligado...\r\n");
+    
+    c_class* clazz = get_class(&(className[0]));
+    
+    if (clazz) {
+        if (clazz->static_fields.find(name) != clazz->static_fields.end()) {
+            if (debug) 
+                printf("[DBG] Field encontrado!\r\n");
+            return &(clazz->static_fields[name]);
+        } else {
+            i_throw(FieldNotFoundException);
+        }
+    } else {
+        i_throw(ClassNotFoundException);
+    }
+}
+
 c_method* i_find_method(cp_info* method_ref) {
     if (!method_ref || method_ref->tag != CONSTANT_Methodref)
         return 0;
@@ -113,7 +136,7 @@ c_method* i_find_method(cp_info* method_ref) {
                 printf("[DBG] Metodo encontrado!\r\n");
             return &(clazz->methods[nameAndType]);
         } else {
-
+            i_throw(MethodNotFoundException);
         }
     } else {
         i_throw(ClassNotFoundException);
@@ -156,8 +179,10 @@ component i_create_array(int type_index, int len) {
 }
 
 void i_return(component ret) {
-    // TODO
-    exit_jvm("i_return nao implementada");
+    fstack_pop();
+    if (fstack_top() && ret.type != VOID_RETURN){
+        i_push(ret);
+    }
 }
 
 void i_throw_exception_by_name(char* name) {
@@ -228,7 +253,9 @@ void run() {
         opcode = *(fstack_top()->pc);
         decode(opcode);
         instruction();
-        fstack_top()->pc = next_pc;
+        if (fstack_top()) {
+            fstack_top()->pc = next_pc;
+        }
     }
 }
 

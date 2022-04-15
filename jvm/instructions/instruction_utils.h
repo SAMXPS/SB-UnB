@@ -16,6 +16,7 @@ void                i_set_wide();
 void                i_add_to_pc(int offset);
 cp_info*            i_read_cp(int index);
 c_method*           i_find_method(cp_info* method_ref);
+component*          i_find_static_field(cp_info* field_ref);
 void                i_invoke_static(c_method* method);
 void                i_invoke_virtual(c_method* method);
 void                i_invoke_special(c_method* method);

@@ -346,6 +346,7 @@ attribute_Code* load_attribute_code(class_file* clazz, attribute_info* info) {
 
     code->attributes_count = u2_readp(&data);
     //code->attributes = load_attributes(&data, code->attributes_count);
+    printf("[WARNING] Atributos do atributo code nao estao sendo carregados...\r\n");
 
     return code;
 }

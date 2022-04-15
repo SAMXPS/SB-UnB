@@ -36,6 +36,7 @@ void link_class(char* class_name, c_class* clazz) {
 
 component create_field(std::string descriptor) {
     component c;
+    printf("[WARNING] Tratando field como NUMERICO sempre....\r\n");
     c.type = NUMERIC;
     c.u8 = 0;
     return c;
