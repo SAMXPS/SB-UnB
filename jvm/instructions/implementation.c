@@ -237,7 +237,7 @@ void f_castore() {
 }
 
 void f_checkcast() {
-	
+	// TODO: 
 }
 
 void f_d2f() {
@@ -296,7 +296,8 @@ void f_daload() {
 }
 
 void f_dastore() {
-
+	// TODO: checar
+	f_aastore();
 }
 
 void f_dcmpg() {
@@ -524,7 +525,8 @@ void f_faload() {
 }
 
 void f_fastore() {
-
+	// TODO: checar
+	f_astore();
 }
 
 void f_fcmpg() {
@@ -783,7 +785,8 @@ void f_iand() {
 }
 
 void f_iastore() {
-
+	// TODO: checar
+	f_aastore();
 }
 
 void f_iconst_m1() {
@@ -829,71 +832,260 @@ void f_idiv() {
 }
 
 void f_if_acmpeq() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type == value2.type && value1.u8 == value2.u8) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_if_acmpne() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != value2.type || value1.u8 != value2.u8) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_if_icmpeq() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+
+	if (value1._int == value2._int) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_if_icmpge() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	//value1 >= value2
+	if (value1._int >= value2._int) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_if_icmpgt() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	//value1 > value2
+	if (value1._int > value2._int) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_if_icmple() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	//value1 <= value2
+	if (value1._int <= value2._int) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_if_icmplt() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	//value1 < value2
+	if (value1._int < value2._int) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_if_icmpne() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value2 = i_pop();
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC || value2.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	// value1 != value2
+	if (value1._int != value2._int) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_ifeq() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	if (value1._int == 0) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_ifge() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	if (value1._int >= 0) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_ifgt() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	if (value1._int > 0) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_ifle() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	if (value1._int <= 0) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_iflt() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	if (value1._int < 0) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_ifne() {
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
 
+	if (value1.type != NUMERIC) {
+		i_throw(RuntimeException);
+		return;
+	}
+	
+	if (value1._int != 0) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_ifnonnull() {
-
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
+	
+	if (value1.type != NULL_REFERENCE) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_ifnull() {
-
+	u2 unzigned =  i_read_code_u2();
+	s2 branchbytes = *(s2*)(&unzigned);
+	
+	component value1 = i_pop();
+	
+	if (value1.type == NULL_REFERENCE) {
+		i_add_to_pc(branchbytes);
+	}
 }
 
 void f_iinc() {
+	u1 index = i_read_code_u1();
+	u1 unzigned = i_read_code_u1();
+	s1 conzt = *((s1*)(&unzigned)); // extensão de sinal
+	local_variable var = i_local_variable(index);
 
+	if (i_has_exception())
+		return;
+
+	var._int += conzt;
+	i_local_variable_set(index, var);
 }
 
 void f_iload_n(int n) {
@@ -1190,7 +1382,8 @@ void f_land() {
 }
 
 void f_lastore() {
-
+	// TODO: checar
+	f_aastore();
 }
 
 void f_lcmp() {
