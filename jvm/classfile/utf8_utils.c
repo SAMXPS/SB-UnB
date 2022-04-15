@@ -12,8 +12,8 @@ int utf8_strcmp(UTF8_String* str1, UTF8_String* str2) {
     return 1;
 }
 
-void utf8_print_constant_pool(class_file* class, u2 index) {
-    utf8_print(&(class->constant_pool[index-1]->data.Utf8));
+void utf8_print_constant_pool(class_file* clazz, u2 index) {
+    utf8_print(&(clazz->constant_pool[index-1]->data.Utf8));
 }
 
 void utf8_print(UTF8_String* str) {

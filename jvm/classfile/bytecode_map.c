@@ -1,6 +1,6 @@
 #include "bytecode_map.h"
 
-char* instruction_map[256] = {0};
+const char* instruction_map[256] = {0};
 int   instruction_arg_count[256] = {0};
 int   is_instruction_map_loaded = 0;
 

@@ -31,7 +31,7 @@ typedef struct {
     union {
         struct {
             u2 name_index;
-        } Class;
+        } Clazz;
         struct {
             u2 class_index;
             u2 name_and_type_index;
