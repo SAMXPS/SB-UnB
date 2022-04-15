@@ -1,6 +1,7 @@
 #include "jvm.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "classfile_definitions.h"
 #include "classfile_loader.h"
 #include "linker.h"
@@ -10,18 +11,18 @@
 const component NULL_COMPONENT = {0};
 frame_stack* fstack = 0;
 
-void i_operand_stack_push(component data) {
+void i_push(component data) {
     if (fstack_empty())
         return;
-    frame* f = get_current_frame();
+    frame* f = fstack_top();
     f->operand_stack[++(f->operand_stack_pos)] = data;
 }
 
-component i_operand_stack_pop() {
+component i_pop() {
     if (fstack_empty())
         return NULL_COMPONENT;
 
-    frame* f = get_current_frame();
+    frame* f = fstack_top();
 
     if (f->operand_stack_pos < 0)
         return NULL_COMPONENT;
@@ -29,8 +30,54 @@ component i_operand_stack_pop() {
     return f->operand_stack[f->operand_stack_pos--];   
 }
 
-frame* get_current_frame() {
-    return fstack_top();
+local_variable i_local_variable(u2 position) {
+    // TODO
+}
+
+local_variable2 i_local_variable2(u2 position) {
+    // TODO
+}
+
+void i_local_variable_set(u2 position, local_variable value) {
+    // TODO
+}
+
+void i_local_variable_set2(u2 position, local_variable2 value) {
+    // TODO
+}
+
+int i_has_exception() {
+    // TODO
+}
+
+int i_is_wide() {
+    // TODO
+}
+
+void i_set_wide() {
+    // TODO
+}
+
+void i_add_to_pc(int offset) {
+    // TODO
+}
+
+u1 i_read_code_u1() {
+    // TODO
+    // nao altera o pc diretamente, usa uma variavel next_pc...
+}
+
+u2 i_read_code_u2() {
+    // TODO
+    // nao altera o pc diretamente, usa uma variavel next_pc...
+} 
+
+component i_create_array(int type_index, int len) {
+    // TODO
+}
+
+void i_return(component ret) {
+    // TODO
 }
 
 void i_throw_exception_by_name(char* name) {
@@ -61,7 +108,7 @@ frame fstack_pop() {
 }
 
 void fstack_push(frame f) {
-    frame_stack* new_frame = malloc(sizeof(frame_stack));
+    frame_stack* new_frame = (frame_stack*) malloc(sizeof(frame_stack));
     new_frame->data = f;
     new_frame->last = fstack;
     fstack = new_frame;
@@ -84,7 +131,7 @@ void print_usage() {
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         print_usage();
-        return;
+        return 0;
     }
 
     u2 class_count = 0;
@@ -111,7 +158,7 @@ int main(int argc, char *argv[]) {
     if (!main_class_name) {
         printf("Classe Main não informada... \r\n");
         print_usage();
-        return;
+        return 0;
     }
 
     if (leitor_exibidor) {
