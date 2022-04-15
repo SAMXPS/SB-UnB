@@ -21,4 +21,6 @@ c_class* get_class(char* class_name);
  */
 void     link_class(char* class_name, c_class* clazz);
 
+component create_field(std::string descriptor);
+
 #endif//JVM_LINKER_H

@@ -120,9 +120,26 @@ c_method* i_find_method(cp_info* method_ref) {
     }
 }
 
-void i_invoke_static(c_method* method) {
+void i_load_method_parameters(c_method* method, frame* frame) {
+    // TODO: ler method descriptor e carregar os parametros corretamente.
+}
 
-    exit_jvm("i_invoke_static nao implementada");
+void i_invoke_static(c_method* method) {
+    if (!ACC_IS_STATIC(method->access_flags)) {
+        i_throw(IncompatibleClassChangeError);
+    }
+    
+    frame f = {0};
+    f.clazz = method->clazz;
+    f.operand_stack_pos = -1;
+
+    i_load_method_parameters(method, &f);
+
+    f.pc = method->code;
+
+    fstack_push(f);
+
+    next_pc = f.pc;
 }
 
 void i_invoke_virtual(c_method* method) {

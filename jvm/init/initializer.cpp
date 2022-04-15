@@ -1,4 +1,5 @@
 #include "initializer.h"
+#include "linker.h"
 #include "classfile_attributes.h"
 #include "classfile_loader.h"
 #include "instruction_utils.h"
@@ -36,6 +37,18 @@ void initialize_class(c_class* clazz) {
         #ifdef _DEBUG
         printf("[DBG] Carregado metodo %s na classe %s.\r\n", (method.name + method.descriptor).c_str(), clazz->name.c_str());
         #endif
+    }
+
+    auto ffields = clazz->class_file->fields;
+    auto ffields_count = clazz->class_file->fields_count;
+
+    for (int i = 0; i < ffields_count; i++) {
+        field_info field = ffields[i];
+        if (ACC_IS_STATIC(field.access_flags)) {
+            std::string field_name = utf8_load_constant_pool(clazz->class_file, field.name_index);
+            std::string descriptor = utf8_load_constant_pool(clazz->class_file, field.descriptor_index);
+            clazz->static_fields[field_name] = create_field(descriptor);
+        }
     }
 
     if (clazz->methods.find("<clinit>()V") != clazz->methods.end()) {

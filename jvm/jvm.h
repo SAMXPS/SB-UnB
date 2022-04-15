@@ -46,7 +46,7 @@ struct c_class;
 struct c_interface;
 
 typedef struct component {
-    component_type type;
+    component_type      type;
     union {
  struct c_array*        array;
         class_file*     clazz;
@@ -122,6 +122,7 @@ typedef struct c_method {
 typedef struct c_class {
     class_file*                                 class_file;
     std::unordered_map<std::string,c_method>    methods;
+    std::unordered_map<std::string,component>   static_fields;
     std::string                                 name;
     int                                         initialized;
 } c_class;

@@ -345,7 +345,7 @@ attribute_Code* load_attribute_code(class_file* clazz, attribute_info* info) {
     data += code->exception_table_length;
 
     code->attributes_count = u2_readp(&data);
-    code->attributes = load_attributes(&data, code->attributes_count);
+    //code->attributes = load_attributes(&data, code->attributes_count);
 
     return code;
 }

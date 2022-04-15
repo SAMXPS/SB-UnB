@@ -172,6 +172,7 @@ void f_astore_3() {
 }
 
 void f_athrow() {
+	exit_jvm("Instrucao f_athrow NAO IMPLEMENTADA.");
 	// TODO: implementar exception handler	
 }
 
@@ -228,6 +229,7 @@ void f_bipush() {
 // ?
 void f_breakpoint() {
 	// TODO:
+	exit_jvm("Instrucao f_breakpoint NAO IMPLEMENTADA.");
 }
 
 void f_caload() {
@@ -242,6 +244,7 @@ void f_castore() {
 
 void f_checkcast() {
 	// TODO: implementar tipos etc etc etc
+	exit_jvm("Instrucao f_checkcast NAO IMPLEMENTADA.");
 }
 
 void f_d2f() {
@@ -309,19 +312,19 @@ void f_dastore() {
 }
 
 void f_dcmpg() {
-
+	exit_jvm("Instrucao f_dcmpg NAO IMPLEMENTADA.");
 }
 
 void f_dcmpl() {
-
+	exit_jvm("Instrucao f_dcmpl NAO IMPLEMENTADA.");
 }
 
 void f_dconst_0() {
-
+	exit_jvm("Instrucao f_dconst_0 NAO IMPLEMENTADA.");
 }
 
 void f_dconst_1() {
-
+	exit_jvm("Instrucao f_dconst_1 NAO IMPLEMENTADA.");
 }
 
 void f_ddiv() {
@@ -397,11 +400,11 @@ void f_dneg() {
 }
 
 void f_drem() {
-
+	exit_jvm("Instrucao f_drem NAO IMPLEMENTADA.");
 }
 
 void f_dreturn() {
-
+	exit_jvm("Instrucao f_dreturn NAO IMPLEMENTADA.");
 }
 
 void f_dstore_n(int index) {
@@ -473,14 +476,15 @@ void f_dup_x2() {
 
 void f_dup2() {
 	// Cat 2???
+	exit_jvm("Instrucao f_dup2 NAO IMPLEMENTADA.");
 }
 
 void f_dup2_x1() {
-
+	exit_jvm("Instrucao f_dup2_x1 NAO IMPLEMENTADA.");
 }
 
 void f_dup2_x2() {
-
+	exit_jvm("Instrucao f_dup2_x2 NAO IMPLEMENTADA.");
 }
 
 void f_f2d() {
@@ -548,23 +552,23 @@ void f_fastore() {
 }
 
 void f_fcmpg() {
-
+	exit_jvm("Instrucao f_fcmpg NAO IMPLEMENTADA.");
 }
 
 void f_fcmpl() {
-
+	exit_jvm("Instrucao f_fcmpl NAO IMPLEMENTADA.");
 }
 
 void f_fconst_0() {
-
+	exit_jvm("Instrucao f_fconst_0 NAO IMPLEMENTADA.");
 }
 
 void f_fconst_1() {
-
+	exit_jvm("Instrucao f_fconst_1 NAO IMPLEMENTADA.");
 }
 
 void f_fconst_2() {
-
+	exit_jvm("Instrucao f_fconst_2 NAO IMPLEMENTADA.");
 }
 
 void f_fdiv() {
@@ -641,31 +645,31 @@ void f_fneg() {
 }
 
 void f_frem() {
-
+	exit_jvm("Instrucao f_frem NAO IMPLEMENTADA.");
 }
 
 void f_freturn() {
-
+	exit_jvm("Instrucao f_freturn NAO IMPLEMENTADA.");
 }
 
 void f_fstore() {
-
+	exit_jvm("Instrucao f_fstore NAO IMPLEMENTADA.");
 }
 
 void f_fstore_0() {
-
+	exit_jvm("Instrucao f_fstore_0 NAO IMPLEMENTADA.");
 }
 
 void f_fstore_1() {
-
+	exit_jvm("Instrucao f_fstore_1 NAO IMPLEMENTADA.");
 }
 
 void f_fstore_2() {
-
+	exit_jvm("Instrucao f_fstore_2 NAO IMPLEMENTADA.");
 }
 
 void f_fstore_3() {
-
+	exit_jvm("Instrucao f_fstore_3 NAO IMPLEMENTADA.");
 }
 
 void f_fsub() {
@@ -685,19 +689,19 @@ void f_fsub() {
 }
 
 void f_getfield() {
-
+	exit_jvm("Instrucao f_getfield NAO IMPLEMENTADA.");
 }
 
 void f_getstatic() {
-
+	exit_jvm("Instrucao f_getstatic NAO IMPLEMENTADA.");
 }
 
 void f_goto() {
-
+	exit_jvm("Instrucao f_goto NAO IMPLEMENTADA.");
 }
 
 void f_goto_w() {
-
+	exit_jvm("Instrucao f_goto_w NAO IMPLEMENTADA.");
 }
 
 void f_i2b() {
@@ -821,30 +825,31 @@ void f_iastore() {
 }
 
 void f_iconst_m1() {
-
+	exit_jvm("Instrucao f_iconst_m1 NAO IMPLEMENTADA.");
 }
 
 void f_iconst_0() {
-
+	exit_jvm("Instrucao f_iconst_0 NAO IMPLEMENTADA.");
 }
-void f_iconst_1() {
 
+void f_iconst_1() {
+	exit_jvm("Instrucao f_iconst_1 NAO IMPLEMENTADA.");
 }
 
 void f_iconst_2() {
-
+	exit_jvm("Instrucao f_iconst_2 NAO IMPLEMENTADA.");
 }
 
 void f_iconst_3() {
-
+	exit_jvm("Instrucao f_iconst_3 NAO IMPLEMENTADA.");
 }
 
 void f_iconst_4() {
-
+	exit_jvm("Instrucao f_iconst_4 NAO IMPLEMENTADA.");
 }
 
 void f_iconst_5() {
-
+	exit_jvm("Instrucao f_iconst_5 NAO IMPLEMENTADA.");
 }
 
 // Divide int
@@ -1152,11 +1157,11 @@ void f_iload_3() {
 }
 
 void f_impdep1() {
-
+	exit_jvm("Instrucao f_impdep1 NAO IMPLEMENTADA.");
 }
 
 void f_impdep2() {
-
+	exit_jvm("Instrucao f_impdep2 NAO IMPLEMENTADA.");
 }
 
 // Multiply int
@@ -1189,7 +1194,7 @@ void f_ineg() {
 }
 
 void f_instanceof() {
-
+	exit_jvm("Instrucao f_instanceof NAO IMPLEMENTADA.");
 }
 
 void f_invokedynamic() {
@@ -1233,11 +1238,11 @@ void f_ior() {
 }
 
 void f_irem() {
-
+	exit_jvm("Instrucao f_irem NAO IMPLEMENTADA.");
 }
 
 void f_ireturn() {
-
+	exit_jvm("Instrucao f_ireturn NAO IMPLEMENTADA.");
 }
 
 void f_ishl() {
@@ -1354,11 +1359,11 @@ void f_ixor() {
 }
 
 void f_jsr() {
-
+	exit_jvm("Instrucao f_jsr NAO IMPLEMENTADA.");
 }
 
 void f_jsr_w() {
-
+	exit_jvm("Instrucao f_jsr_w NAO IMPLEMENTADA.");
 }
 
 void f_l2d() {
@@ -1440,27 +1445,27 @@ void f_lastore() {
 }
 
 void f_lcmp() {
-
+	exit_jvm("Instrucao f_lcmp NAO IMPLEMENTADA.");
 }
 
 void f_lconst_0() {
-
+	exit_jvm("Instrucao f_lconst_0 NAO IMPLEMENTADA.");
 }
 
 void f_lconst_1() {
-
+	exit_jvm("Instrucao f_lconst_1 NAO IMPLEMENTADA.");
 }
 
 void f_ldc() {
-
+	exit_jvm("Instrucao f_ldc NAO IMPLEMENTADA.");
 }
 
 void f_ldc_w() {
-
+	exit_jvm("Instrucao f_ldc_w NAO IMPLEMENTADA.");
 }
 
 void f_ldc2_w() {
-
+	exit_jvm("Instrucao f_ldc2_w NAO IMPLEMENTADA.");
 }
 
 void f_ldiv() {
@@ -1536,7 +1541,7 @@ void f_lneg() {
 }
 
 void f_lookupswitch() {
-
+	exit_jvm("Instrucao f_lookupswitch NAO IMPLEMENTADA.");
 }
 
 void f_lor() {
@@ -1554,11 +1559,11 @@ void f_lor() {
 }
 
 void f_lrem() {
-
+	exit_jvm("Instrucao f_lrem NAO IMPLEMENTADA.");
 }
 
 void f_lreturn() {
-
+	exit_jvm("Instrucao f_lreturn NAO IMPLEMENTADA.");
 }
 
 void f_lshl() {
@@ -1667,24 +1672,26 @@ void f_lxor() {
 
 void f_monitorenter() {
 	// Não implementado
+	exit_jvm("Instrucao f_monitorenter NAO IMPLEMENTADA.");
 	i_throw(RuntimeException);
 }
 
 void f_monitorexit() {
 	// Não implementado
+	exit_jvm("Instrucao f_monitorexit NAO IMPLEMENTADA.");
 	i_throw(RuntimeException);
 }
 
 void f_multianewarray() {
-
+	exit_jvm("Instrucao f_multianewarray NAO IMPLEMENTADA.");
 }
 
 void f_new() {
-
+	exit_jvm("Instrucao f_new NAO IMPLEMENTADA.");
 }
 
 void f_newarray() {
-
+	exit_jvm("Instrucao f_newarray NAO IMPLEMENTADA.");
 }
 
 // Do nothing
@@ -1704,15 +1711,15 @@ void f_pop2() {
 }
 
 void f_putfield() {
-
+	exit_jvm("Instrucao f_putfield NAO IMPLEMENTADA.");
 }
 
 void f_putstatic() {
-
+	exit_jvm("Instrucao f_putstatic NAO IMPLEMENTADA.");
 }
 
 void f_ret() {
-
+	exit_jvm("Instrucao f_ret NAO IMPLEMENTADA.");
 }
 
 void f_return() {
@@ -1726,7 +1733,7 @@ void f_saload() {
 }
 
 void f_sastore() {
-
+	exit_jvm("Instrucao f_sastore NAO IMPLEMENTADA.");
 }
 
 void f_sipush() {
@@ -1748,7 +1755,7 @@ void f_swap() {
 }
 
 void f_tableswitch() {
-	// TODO
+	exit_jvm("Instrucao f_tableswitch NAO IMPLEMENTADA.");
 }
 
 void f_wide() {

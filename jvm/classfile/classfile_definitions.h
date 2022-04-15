@@ -37,6 +37,19 @@ enum ACCESS_CLASS {
     ACC_ENUM	    = 0x4000,	// Declared as an enum type.
 };
 
+enum FIELD_DESCRIPTORS {
+    FD_BYTE = 'B',	    //byte	signed byte
+    FD_HAR = 'C',	    //char	Unicode character code point in the Basic Multilingual Plane, encoded with UTF-16
+    FD_DOUBLE = 'D',	//double	double-precision floating-point value
+    FD_FLOAT = 'F',	    //float	single-precision floating-point value
+    FD_INTEGER = 'I',	//int	integer
+    FD_LONG = 'J',	    //long	long integer
+    FD_CLASSNAME = 'L', //ClassName ;	reference	an instance of class ClassName
+    FD_SHORT = 'S',	    //short	signed short
+    FD_BOOLEAN = 'Z',	//boolean	true or false
+    FD_REFERENCE = '['	//reference	one array dimension
+};
+
 #define ACC_IS_STATIC(x) (ACC_STATIC&(x))
 #define ACC_IS_PUBLIC(x) (ACC_PUBLIC&(x))
 
