@@ -144,16 +144,10 @@ void print_usage() {
     printf("\t--exibir\tNao executar as classes, apenas rodar o leitor-exibidor.\r\n");
 }
 
-u1* pc;
 u1* next_pc;
 void (*instruction)();
-u1  opcode;
 
-void fetch() {
-    opcode = *pc;
-}
-
-void decode() {
+void decode(u1 opcode) {
     instruction = instruction_handler[opcode];
     if (!instruction) {
         printf("instrucao %d nao implementada\r\n", opcode);
@@ -165,25 +159,29 @@ void decode() {
 }
 
 void run() {
-    while (1) {
-        fetch();
-        decode();
-        next_pc = pc+1;
+    u1  opcode;
+    while (fstack_top()) {
+        next_pc = (fstack_top()->pc)+1;
+        opcode = *(fstack_top()->pc);
+        decode(opcode);
         instruction();
-        pc = next_pc;
+        fstack_top()->pc = next_pc;
     }
 }
 
 void i_run_clinit(c_class* clazz) {
+    if (debug) {
+        printf("[DBG] Rodando clinit da classe %s\r\n", clazz->name.c_str());
+    }
 
+    fstack_new(clazz);
+    fstack_top()->pc = clazz->methods["<clinit>()V"].code;
+    run();
 }
 
 void run_main(c_class* main) {
     // On instance method invocation, local variable 0 is always used to pass a reference to the object on which the instance method is being invoked (this in the Java programming language).
     // Any parameters are subsequently passed in consecutive local variables starting from local variable 1.
-
-    load_instructions();
-    load_instruction_map();
 
     if (main->methods.find("main([Ljava/lang/String;)V") == main->methods.end()) {
         printf("Main nao encontrada!!\r\n");
@@ -206,8 +204,8 @@ void run_main(c_class* main) {
         printf("[DBG] Iniciando aplicacao main da classe %s\r\n", main->name.c_str());
     }
 
-    pc = method.code;
     fstack_new(main);
+    fstack_top()->pc = method.code;
     run();
 }
 
@@ -250,11 +248,16 @@ int main(int argc, char *argv[]) {
 
         }
     } else {
+        load_instructions();
+        load_instruction_map();
+
         c_class* main_class = get_class(main_class_name);
+        
         if (!main_class) {
             printf("[JVM] Nao foi possivel carregar a JVM com classe main informada.\r\n");
             return 0;
         }
+
         run_main(main_class);
     }
     printf("[JVM] Fim da execucao normal da JVM.\r\n");

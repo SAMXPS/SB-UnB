@@ -130,6 +130,7 @@ typedef struct {
     component       operand_stack[OPERAND_STACK_SIZE];
     u1              operand_stack_pos;
     c_class*        clazz;
+    u1*             pc;
 } frame;
 
 typedef struct frame_stack {
