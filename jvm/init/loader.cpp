@@ -24,5 +24,9 @@ class_file* load_class(char* class_name_cp) {
         }
     }
 
+#ifdef _DEBUG
+    printf("[DBG] Nao foi possivel encontrar classe %s\r\n", class_name_cp);
+#endif
+
     return 0;
 }

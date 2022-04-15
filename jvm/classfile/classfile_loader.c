@@ -249,10 +249,15 @@ int load_class_folder(char* folder, class_file** dest) {
 }
 
 class_file* load_class_file(const char*filename) {
+    if (!filename) {
+        printf("[JVM] Erro ao tentar carregar arquivo nulo.\r\n");
+        return 0;
+    }
+
     void* data = copy_class_file_to_ram(filename);
     
     if (!data) {
-        printf("Erro ao abrir o arquivo\r\n");
+        printf("[JVM] Erro ao abrir o arquivo %s\r\n", filename);
         return 0;
     }
     
@@ -262,7 +267,7 @@ class_file* load_class_file(const char*filename) {
     clazz->magic = u4_readp(&data);
 
     if (clazz->magic != 0xCAFEBABE) {
-        printf("Identificador CAFEBABE não encontrado no arquivo de clazze.\r\n");
+        printf("[JVM] Identificador CAFEBABE não encontrado no arquivo de classe.\r\n");
         free_class_file(clazz);
         return 0;
     }
@@ -272,7 +277,7 @@ class_file* load_class_file(const char*filename) {
     clazz->constant_pool_count = u2_readp(&data);
 
     if (!load_constant_pool(&data, clazz)) {
-        printf("Erro ao carregar pool de constantes.\r\n");
+        printf("[JVM] Erro ao carregar pool de constantes.\r\n");
         free_class_file(clazz);
         return 0;
     }
@@ -283,7 +288,7 @@ class_file* load_class_file(const char*filename) {
     clazz->interfaces_count = u2_readp(&data);
 
     if (!load_interfaces(clazz, &data)) {
-        printf("Erro ao carregar interfaces.\r\n");
+        printf("[JVM] Erro ao carregar interfaces.\r\n");
         free_class_file(clazz);
         return 0;
     }
@@ -291,7 +296,7 @@ class_file* load_class_file(const char*filename) {
     clazz->fields_count = u2_readp(&data);
 
     if (!load_fields(clazz, &data)) {
-        printf("Erro ao carregar fields.\r\n");
+        printf("[JVM] Erro ao carregar fields.\r\n");
         free_class_file(clazz);
         return 0;
     }
@@ -299,7 +304,7 @@ class_file* load_class_file(const char*filename) {
     clazz->methods_count = u2_readp(&data);
 
     if (!load_methods(clazz, &data)) {
-        printf("Erro ao carregar methods.\r\n");
+        printf("[JVM] Erro ao carregar methods.\r\n");
         free_class_file(clazz);
         return 0;
     }
@@ -308,12 +313,12 @@ class_file* load_class_file(const char*filename) {
     clazz->attributes = load_attributes(&data, clazz->attributes_count);
 
     if (!clazz->attributes) {
-        printf("Erro ao carregar attributes.\r\n");
+        printf("[JVM] Erro ao carregar attributes.\r\n");
         free_class_file(clazz);
         return 0;
     }
 
-    printf("clazze %s carregada com sucesso.\r\n", filename);
+    printf("[JVM] Arquivo de classe %s carregado com sucesso.\r\n", filename);
 
     return clazz;
 }

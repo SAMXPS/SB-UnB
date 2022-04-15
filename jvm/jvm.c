@@ -169,7 +169,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (!main_class_name) {
-        printf("Classe Main não informada... \r\n");
+        printf("[JVM] Classe Main nao informada... \r\n");
         print_usage();
         return 0;
     }
@@ -182,10 +182,11 @@ int main(int argc, char *argv[]) {
     } else {
         c_class* main_class = get_class(main_class_name);
         if (!main_class) {
-            printf("Não foi possível carregar a JVM com classe main informada.\r\n");
+            printf("[JVM] Nao foi possivel carregar a JVM com classe main informada.\r\n");
             return 0;
         }
         run_main(main_class);
     }
+    printf("[JVM] Fim da execucao normal da JVM.\r\n");
     return 0;
 }
