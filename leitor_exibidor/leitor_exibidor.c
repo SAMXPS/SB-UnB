@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "class_loader.h"
-#include "class_viewer.h"
+#include "classfile_loader.h"
+#include "classfile_viewer.h"
 
 void print_usage() {
     printf("por favor, informe o caminho para o arquivo .class\n");

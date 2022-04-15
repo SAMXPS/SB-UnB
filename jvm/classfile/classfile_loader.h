@@ -1,7 +1,7 @@
 #ifndef CLASS_LOADER_H
 #define CLASS_LOADER_H
-#include "class_definitions.h"
-#include "class_attributes.h"
+#include "classfile_definitions.h"
+#include "classfile_attributes.h"
 
 u1              u1_readp(void** data);
 u2              u2_readp(void** data);

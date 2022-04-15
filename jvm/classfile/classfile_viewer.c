@@ -1,4 +1,4 @@
-#include "class_viewer.h"
+#include "classfile_viewer.h"
 #include "bytecode_viewer.h"
 #include "utf8_utils.h"
 #include <stdio.h>

@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <string.h> // memcpy
 #include <dirent.h> // diretorios
-#include "class_loader.h"
+#include "classfile_loader.h"
 #include "utf8_utils.h"
 
 void* copy_class_file_to_ram(const char *filename) {

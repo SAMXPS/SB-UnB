@@ -1,5 +1,5 @@
-#ifndef CLASS_DEFINITIONS_H
-#define CLASS_DEFINITIONS_H
+#ifndef CLASSFILE_DEFINITIONS_H
+#define CLASSFILE_DEFINITIONS_H
 #include <stdint.h>
 
 typedef uint8_t  u1;
@@ -111,4 +111,4 @@ typedef struct {
     void*           freeme;
 } class_file;
 
-#endif//CLASS_DEFINITIONS_H
+#endif//CLASSFILE_DEFINITIONS_H

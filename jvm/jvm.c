@@ -1,8 +1,8 @@
 #include "jvm.h"
 #include <stdio.h>
 #include <string.h>
-#include "class_definitions.h"
-#include "class_loader.h"
+#include "classfile_definitions.h"
+#include "classfile_loader.h"
 
 #define MAX_CLASS_FILES 32
 

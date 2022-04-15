@@ -1,6 +1,6 @@
 #ifndef UTF8_UTILS_H
 #define UTF8_UTILS_H
-#include "class_definitions.h"
+#include "classfile_definitions.h"
 
 /**
  * @brief           Compara duas strings UTF8.

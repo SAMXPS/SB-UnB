@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "bytecode_viewer.h"
 #include "utf8_utils.h"
-#include "class_attributes.h"
-#include "class_loader.h"
+#include "classfile_attributes.h"
+#include "classfile_loader.h"
 #include "bytecode_map.h"
 
 void view_code(attribute_Code* code) {
@@ -37,13 +37,13 @@ void view_code(attribute_Code* code) {
     }
 }
 
-void view_method(class_file* class, method_info* method) {
+void view_method(class_file* classfile, method_info* method) {
     printf("Nome do metodo:\t<");
-    utf8_print_constant_pool(class, method->name_index);
+    utf8_print_constant_pool(classfile, method->name_index);
     printf(">\n");
     
     printf("Descriptor:\t<");
-    utf8_print_constant_pool(class, method->descriptor_index);
+    utf8_print_constant_pool(classfile, method->descriptor_index);
     printf(">\n");
 
     printf("access_flags:\t0x%02X\n", method->access_flags); // todo: traduzir para hexa + access_flags
@@ -51,9 +51,9 @@ void view_method(class_file* class, method_info* method) {
 
     for (u2 i = 0; i < method->attributes_count; i++) {
         attribute_info info = method->attributes[i];
-        UTF8_String* atr_name = &(class->constant_pool[info.attribute_name_index-1]->data.Utf8);
+        UTF8_String* atr_name = &(classfile->constant_pool[info.attribute_name_index-1]->data.Utf8);
         if (utf8_strcmp(atr_name, &ATTRIBUTE_CODE) == 0) {
-            attribute_Code* code = load_attribute_code(class, method->attributes + sizeof(attribute_info) * i);
+            attribute_Code* code = load_attribute_code(classfile, method->attributes + sizeof(attribute_info) * i);
             view_code(code);
             free_attribute_code(code);
         }

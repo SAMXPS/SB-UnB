@@ -237,7 +237,7 @@ void f_castore() {
 }
 
 void f_checkcast() {
-	// TODO: 
+	// TODO: implementar tipos etc etc etc
 }
 
 void f_d2f() {

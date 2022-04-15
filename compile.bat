@@ -1,2 +1,2 @@
 cd jvm
-gcc -I"class/" -I"." -I"instructions/" -g class/*.c instructions/*.c *.c -o ../jvm.exe
+gcc -I"classfile/" -I"." -I"instructions/" -g classfile/*.c instructions/*.c init/*.c *.c -o ../jvm.exe

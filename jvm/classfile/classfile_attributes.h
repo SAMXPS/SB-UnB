@@ -1,6 +1,6 @@
-#ifndef CLASS_ATTRIBUTES_H
-#define CLASS_ATTRIBUTES_H
-#include "class_definitions.h"
+#ifndef CLASSFILE_ATTRIBUTES_H
+#define CLASSFILE_ATTRIBUTES_H
+#include "classfile_definitions.h"
 
 typedef struct {
     u2              start_pc;
@@ -22,4 +22,4 @@ typedef struct {
 
 extern UTF8_String ATTRIBUTE_CODE;
 
-#endif//CLASS_ATTRIBUTES_H
+#endif//CLASSFILE_ATTRIBUTES_H
