@@ -32,57 +32,70 @@ component i_pop() {
 
 local_variable i_local_variable(u2 position) {
     // TODO
+    exit_jvm("i_local_variable nao implementada");
 }
 
 local_variable2 i_local_variable2(u2 position) {
     // TODO
+    exit_jvm("i_local_variable2 nao implementada");
 }
 
 void i_local_variable_set(u2 position, local_variable value) {
     // TODO
+    exit_jvm("i_local_variable_set nao implementada");
 }
 
 void i_local_variable_set2(u2 position, local_variable2 value) {
     // TODO
+    exit_jvm("i_local_variable_set2 nao implementada");
 }
 
 int i_has_exception() {
     // TODO
+    exit_jvm("i_has_exception nao implementada");
 }
 
 int i_is_wide() {
     // TODO
+    exit_jvm("i_is_wide nao implementada");
 }
 
 void i_set_wide() {
     // TODO
+    exit_jvm("i_set_wide nao implementada");
 }
 
 void i_add_to_pc(int offset) {
     // TODO
+    exit_jvm("i_add_to_pc nao implementada");
 }
 
 u1 i_read_code_u1() {
     // TODO
     // nao altera o pc diretamente, usa uma variavel next_pc...
+    exit_jvm("i_read_code_u1 nao implementada");
 }
 
 u2 i_read_code_u2() {
     // TODO
     // nao altera o pc diretamente, usa uma variavel next_pc...
+    exit_jvm("i_read_code_u2 nao implementada");
 } 
 
 component i_create_array(int type_index, int len) {
     // TODO
+    exit_jvm("i_create_array nao implementada");
 }
 
 void i_return(component ret) {
     // TODO
+    exit_jvm("i_return nao implementada");
 }
 
 void i_throw_exception_by_name(char* name) {
     printf("Excessao lancada: %s\r\n", name);
     // TODO: handle exception
+    exit_jvm("Excessao nao foi tratada");
 }
 
 int fstack_empty() {

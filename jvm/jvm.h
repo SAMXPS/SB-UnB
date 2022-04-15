@@ -158,5 +158,8 @@ void fstack_push(frame f);
  */
 void fstack_new(class_file* clazz);
 
+#define exit_jvm(MESSAGE)\
+    printf(#MESSAGE"\r\n");\
+    exit(0);
 
 #endif//JVM_H
