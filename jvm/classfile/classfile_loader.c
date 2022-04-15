@@ -58,7 +58,7 @@ u8 u8_readp(void**  data) {
 }
 
 int load_constant_pool(void** data, class_file* clazz) {
-    cp_info** pool = malloc(sizeof(cp_info*) * (clazz->constant_pool_count-1));
+    cp_info** pool = (cp_info**) malloc(sizeof(cp_info*) * (clazz->constant_pool_count-1));
     clazz->constant_pool = pool;
 
     u2 index = 0;
@@ -70,52 +70,52 @@ int load_constant_pool(void** data, class_file* clazz) {
         u1 tag = u1_readp(data);
         switch (tag) {
             case CONSTANT_Class:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.Clazz.name_index = u2_readp(data);
                 pool[index++] = element;
                 break;
             case CONSTANT_Fieldref:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.Fieldref.class_index = u2_readp(data);
                 element->data.Fieldref.name_and_type_index = u2_readp(data);
                 pool[index++] = element;
                 break;
             case CONSTANT_Methodref:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.Methodref.class_index = u2_readp(data);
                 element->data.Methodref.name_and_type_index = u2_readp(data);
                 pool[index++] = element;
                 break;
             case CONSTANT_InterfaceMethodref:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.InterfaceMethodref.class_index = u2_readp(data);
                 element->data.InterfaceMethodref.name_and_type_index = u2_readp(data);
                 pool[index++] = element;
                 break;
             case CONSTANT_String:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.String.string_index = u2_readp(data);
                 pool[index++] = element;
                 break;
             case CONSTANT_Integer:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.Integer.bytes = u4_readp(data);
                 pool[index++] = element;
                 break;
             case CONSTANT_Float:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.Float.bytes = u4_readp(data);
                 pool[index++] = element;
                 break;
             case CONSTANT_Long:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.Long.high_bytes = u4_readp(data);
                 element->data.Long.low_bytes = u4_readp(data);
@@ -123,7 +123,7 @@ int load_constant_pool(void** data, class_file* clazz) {
                 pool[index++] = 0;
                 break;
             case CONSTANT_Double:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.Double.high_bytes = u4_readp(data);
                 element->data.Double.low_bytes = u4_readp(data);
@@ -131,7 +131,7 @@ int load_constant_pool(void** data, class_file* clazz) {
                 pool[index++] = 0;
                 break;
             case CONSTANT_NameAndType:
-                element = malloc(sizeof(cp_info));
+                element = (cp_info*) malloc(sizeof(cp_info));
                 element->tag = tag;
                 element->data.NameAndType.name_index = u2_readp(data);
                 element->data.NameAndType.descriptor_index = u2_readp(data);
@@ -157,11 +157,11 @@ int load_constant_pool(void** data, class_file* clazz) {
 }
 
 attribute_info* load_attributes(void** data, u2 count) {
-    attribute_info* attributes = malloc(sizeof(attribute_info)*count);
+    attribute_info* attributes = (attribute_info*) malloc(sizeof(attribute_info)*count);
     for (u2 i=0; i<count; i++) {
         attributes[i].attribute_name_index = u2_readp(data);
         attributes[i].attribute_length = u4_readp(data);
-        attributes[i].info = malloc(attributes[i].attribute_length);
+        attributes[i].info = (u1*) malloc(attributes[i].attribute_length);
         memcpy(attributes[i].info, *data, attributes[i].attribute_length);
         *data+=attributes[i].attribute_length;
     }
@@ -189,7 +189,7 @@ method_info load_method(void** data) {
 }
 
 int load_interfaces(class_file* clazz, void** data) {
-    clazz->interfaces = malloc(sizeof(u2)*clazz->interfaces_count);
+    clazz->interfaces = (u2*) malloc(sizeof(u2)*clazz->interfaces_count);
     for(u2 i = 0; i < clazz->interfaces_count; i++) {
         clazz->interfaces[i] = u2_readp(data);
     }
@@ -197,7 +197,7 @@ int load_interfaces(class_file* clazz, void** data) {
 }
 
 int load_fields(class_file* clazz, void** data) {
-    clazz->fields = malloc(sizeof(field_info)* clazz->fields_count);
+    clazz->fields = (field_info*) malloc(sizeof(field_info)* clazz->fields_count);
     for (u2 i = 0; i < clazz->fields_count; i++) {
         clazz->fields[i] = load_field(data);
     }
@@ -205,7 +205,7 @@ int load_fields(class_file* clazz, void** data) {
 }
 
 int load_methods(class_file* clazz, void** data) {
-    clazz->methods = malloc(sizeof(method_info)* clazz->methods_count);
+    clazz->methods = (method_info*) malloc(sizeof(method_info)* clazz->methods_count);
     for (u2 i = 0; i < clazz->methods_count; i++) {
         clazz->methods[i] = load_method(data);
     }
@@ -256,7 +256,7 @@ class_file* load_class_file(const char*filename) {
         return 0;
     }
     
-    class_file* clazz = malloc(sizeof(class_file));
+    class_file* clazz = (class_file*) malloc(sizeof(class_file));
 
     clazz->freeme = data;
     clazz->magic = u4_readp(&data);
@@ -324,7 +324,7 @@ attribute_Code* load_attribute_code(class_file* clazz, attribute_info* info) {
     if (utf8_strcmp(atr_name, &ATTRIBUTE_CODE) != 0)
         return 0; // Não é um Code... retornamos ponteiro nulo
     
-    attribute_Code* code = malloc(sizeof(attribute_Code));
+    attribute_Code* code = (attribute_Code*) malloc(sizeof(attribute_Code));
     void* data = info->info;
     code->max_stack = u2_readp(&data);
     code->max_locals = u2_readp(&data);
@@ -332,11 +332,11 @@ attribute_Code* load_attribute_code(class_file* clazz, attribute_info* info) {
 
      // Podemos usar esse ponteiro, porque os dados originais não vão ser excluídos
      // enquanto o class_file existir em memória...
-    code->code = data;
+    code->code = (u1*) data;
     data += code->code_length;
 
     code->exception_table_length = u2_readp(&data);
-    code->exception_table = data; // mesma coisa do code->code aqui...
+    code->exception_table = (exception_table*) data; // mesma coisa do code->code aqui...
     data += code->exception_table_length;
 
     code->attributes_count = u2_readp(&data);

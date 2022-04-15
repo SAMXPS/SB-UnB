@@ -137,7 +137,8 @@ void f_arraylength() {
 		return;
 	}
 
-	component arraylen = {.type=NUMERIC,._int=(arrayref.array->len)};
+	component arraylen = {.type=NUMERIC};
+	arraylen._int = arrayref.array->len;
 	
 	i_push(arraylen);
 }
@@ -145,7 +146,8 @@ void f_arraylength() {
 // Store reference into local variable
 void f_astore_n(int n) {
 	component objectref = i_pop();
-	local_variable var = {.reference=objectref};
+	local_variable var; 
+	var.reference=objectref;
 	i_local_variable_set(n, var);
 }
 
@@ -202,7 +204,8 @@ void f_baload(){
 	}
 
 	component my_bool = array->data[index];
-	component to_push = {.type=NUMERIC,._int=my_bool._byte};
+	component to_push = {.type=NUMERIC};
+	to_push._int=my_bool._byte;
 
 	i_push(to_push);
 }
@@ -216,7 +219,8 @@ void f_bipush() {
 	u1 byte = i_read_code_u1();
 
 	s4 extend = (s4)(*((s1*)&byte));
-	component to_push = {.type=NUMERIC,._int=extend};
+	component to_push = {.type=NUMERIC};
+	to_push._int=extend;
 
 	i_push(to_push);
 }
@@ -248,7 +252,8 @@ void f_d2f() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._float=value1._double};
+	component to_push = {.type=NUMERIC};
+	to_push._float=value1._double;
 	i_push(to_push);
 }
 
@@ -260,7 +265,8 @@ void f_d2i() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=value1._double};
+	component to_push = {.type=NUMERIC};
+	to_push._int=value1._double;
 	i_push(to_push);
 }
 
@@ -272,7 +278,8 @@ void f_d2l() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._long=value1._double};
+	component to_push = {.type=NUMERIC};
+	to_push._long=value1._double;
 	i_push(to_push);
 }
 
@@ -285,7 +292,8 @@ void f_dadd() {
 		return;
 	}
 
-	component ret = {.type=NUMERIC,._double = (value1._double + value2._double)};
+	component ret = {.type=NUMERIC};
+	ret._double = (value1._double + value2._double);
 
 	i_push(ret);
 }
@@ -326,7 +334,8 @@ void f_ddiv() {
 	}
 
 	// result is value1 / value2
-	component to_push = {.type=NUMERIC,._double=(value1._double/value2._double)};
+	component to_push = {.type=NUMERIC};
+	to_push._double=(value1._double/value2._double);
 	i_push(to_push);
 }
 
@@ -334,7 +343,8 @@ void f_dload_n(int index)  {
 	local_variable2 var = i_local_variable2(index);
 	if (i_has_exception())
 		return;
-	component to_push = {.type=NUMERIC,._double=var._double};
+	component to_push = {.type=NUMERIC};
+	to_push._double=var._double;
 	i_push(to_push);
 }
 
@@ -368,7 +378,8 @@ void f_dmul() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._double=(value1._double*value2._double)};
+	component to_push = {.type=NUMERIC};
+	to_push._double=(value1._double*value2._double);
 	i_push(to_push);
 }
 
@@ -380,7 +391,8 @@ void f_dneg() {
 		return;
 	}
 	
-	component to_push = {.type=NUMERIC,._double=(value1._double*(-1))};
+	component to_push = {.type=NUMERIC};
+	to_push._double=(value1._double*(-1));
 	i_push(to_push);
 }
 
@@ -394,7 +406,8 @@ void f_dreturn() {
 
 void f_dstore_n(int index) {
 	component objectref = i_pop();
-	local_variable2 var = {._double=objectref._double};
+	local_variable2 var;
+	var._double=objectref._double;
 	i_local_variable_set2(index, var);
 }
 
@@ -429,7 +442,8 @@ void f_dsub() {
 
 	// TODO type conversion??
 	// result is value1 - value2
-	component to_push = {.type=NUMERIC,._double=(value1._double-value2._double)};
+	component to_push = {.type=NUMERIC};
+	to_push._double=(value1._double-value2._double);
 	i_push(to_push);
 }
 
@@ -477,7 +491,8 @@ void f_f2d() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._double=value1._float};
+	component to_push = {.type=NUMERIC};
+	to_push._double=value1._float;
 	i_push(to_push);
 }
 
@@ -489,7 +504,8 @@ void f_f2i() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=value1._float};
+	component to_push = {.type=NUMERIC};
+	to_push._int=value1._float;
 	i_push(to_push);
 }
 
@@ -501,7 +517,8 @@ void f_f2l() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._long=value1._float};
+	component to_push = {.type=NUMERIC};
+	to_push._long=value1._float;
 	i_push(to_push);
 }
 
@@ -514,7 +531,8 @@ void f_fadd() {
 		return;
 	}
 
-	component ret = {.type=NUMERIC,._float = (value1._float + value2._float)};
+	component ret = {.type=NUMERIC};
+	ret._float = (value1._float + value2._float);
 
 	i_push(ret);
 }
@@ -559,7 +577,8 @@ void f_fdiv() {
 	}
 
 	// result is value1 / value2
-	component to_push = {.type=NUMERIC,._float=(value1._float/value2._float)};
+	component to_push = {.type=NUMERIC};
+	to_push._float=(value1._float/value2._float);
 	i_push(to_push);
 }
 
@@ -567,7 +586,8 @@ void f_fload_n(int n) {
 	local_variable var = i_local_variable(n);
 	if (i_has_exception())
 		return;
-	component to_push = {.type=NUMERIC,._float=var._float};
+	component to_push = {.type=NUMERIC};
+	to_push._float=var._float;
 	i_push(to_push);
 }
 
@@ -601,7 +621,8 @@ void f_fmul() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._float=(value1._float*value2._float)};
+	component to_push = {.type=NUMERIC};
+	to_push._float=(value1._float*value2._float);
 	i_push(to_push);
 }
 
@@ -614,7 +635,8 @@ void f_fneg() {
 		return;
 	}
 	
-	component to_push = {.type=NUMERIC,._float=(value1._float*(-1))};
+	component to_push = {.type=NUMERIC};
+	to_push._float=(value1._float*(-1));
 	i_push(to_push);
 }
 
@@ -657,7 +679,8 @@ void f_fsub() {
 
 	// TODO type conversion??
 	// result is value1 - value2
-	component to_push = {.type=NUMERIC,._float=(value1._float-value2._float)};
+	component to_push = {.type=NUMERIC};
+	to_push._float=(value1._float-value2._float);
 	i_push(to_push);
 }
 
@@ -686,7 +709,8 @@ void f_i2b() {
 	}
 	// truncated to a byte, then sign-extended to an int result
 	s1 my_byte = value1._int;
-	component to_push = {.type=NUMERIC,._int=(s4)my_byte};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(s4)my_byte;
 	i_push(to_push);
 }
 
@@ -700,7 +724,8 @@ void f_i2c() {
 
 	// truncated to char, then zero-extended to an int result
 	u1 my_char = value1._int;
-	component to_push = {.type=NUMERIC,._int=(u4)my_char};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(u4)my_char;
 	i_push(to_push);
 }
 
@@ -712,7 +737,8 @@ void f_i2d() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._double=(double) value1._int};
+	component to_push = {.type=NUMERIC};
+	to_push._double=(double) value1._int;
 	i_push(to_push);
 }
 
@@ -724,7 +750,8 @@ void f_i2f() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._float=(float) value1._int};
+	component to_push = {.type=NUMERIC};
+	to_push._float=(float) value1._int;
 	i_push(to_push);
 }
 
@@ -736,7 +763,8 @@ void f_i2l() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._long=(s4) value1._int};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(s4) value1._int;
 	i_push(to_push);
 }
 
@@ -748,7 +776,8 @@ void f_i2s() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=((s2) value1._int)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=((s2) value1._int);
 	i_push(to_push);
 }
 
@@ -761,7 +790,8 @@ void f_iadd() {
 		return;
 	}
 
-	component ret = {.type=NUMERIC,._int = (value1._int + value2._int)};
+	component ret = {.type=NUMERIC};
+	ret._int = (value1._int + value2._int);
 
 	i_push(ret);
 }
@@ -780,7 +810,8 @@ void f_iand() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=(value1._int&value2._int)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int&value2._int);
 	i_push(to_push);
 }
 
@@ -827,7 +858,8 @@ void f_idiv() {
 	}
 
 	// result is value1 / value2
-	component to_push = {.type=NUMERIC,._int=(value1._int/value2._int)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int/value2._int);
 	i_push(to_push);
 }
 
@@ -1092,7 +1124,8 @@ void f_iload_n(int n) {
 	local_variable var = i_local_variable(n);
 	if (i_has_exception())
 		return;
-	component to_push = {.type=NUMERIC,._int=var._int};
+	component to_push = {.type=NUMERIC};
+	to_push._int=var._int;
 	i_push(to_push);
 }
 
@@ -1136,7 +1169,8 @@ void f_imul() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=(value1._int*value2._int)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int*value2._int);
 	i_push(to_push);
 }
 
@@ -1149,7 +1183,8 @@ void f_ineg() {
 		return;
 	}
 	
-	component to_push = {.type=NUMERIC,._int=(value1._int*(-1))};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int*(-1));
 	i_push(to_push);
 }
 
@@ -1186,7 +1221,8 @@ void f_ior() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=(value1._int|value2._int)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int|value2._int);
 	i_push(to_push);
 }
 
@@ -1209,7 +1245,8 @@ void f_ishl() {
 
 	int s = (value2._int)&(0x1F);
 	
-	component to_push = {.type=NUMERIC,._int=(value1._int<<s)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int<<s);
 	i_push(to_push);
 }
 
@@ -1224,7 +1261,8 @@ void f_ishr() {
 
 	int s = (value2._int)&(0x1F);
 	
-	component to_push = {.type=NUMERIC,._int=(value1._int>>s)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int>>s);
 	i_push(to_push);
 }
 
@@ -1236,7 +1274,8 @@ void f_istore_n(int index) {
 		i_throw(RuntimeException);
 		return;
 	}
-	local_variable var = {._int=value._int};
+	local_variable var;
+	var._int=value._int;
 	i_local_variable_set(index, var);
 }
 
@@ -1271,7 +1310,8 @@ void f_isub() {
 	}
 
 	// result is value1 - value2
-	component to_push = {.type=NUMERIC,._int=(value1._int-value2._int)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int-value2._int);
 	i_push(to_push);
 }
 
@@ -1288,7 +1328,8 @@ void f_iushr() {
 	int s = (value2._int)&(0x1F);
 
 	// An int result is calculated by shifting value1 right by s bit positions, with zero extension, where s is the value of the low 5 bits of value2. 
-	component to_push = {.type=NUMERIC,._uint=(value1._uint>>s)};
+	component to_push = {.type=NUMERIC};
+	to_push._uint=(value1._uint>>s);
 	i_push(to_push);
 }
 
@@ -1301,7 +1342,8 @@ void f_ixor() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=(value1._int^value2._int)};
+	component to_push = {.type=NUMERIC};
+	to_push._int=(value1._int^value2._int);
 	i_push(to_push);
 }
 
@@ -1321,7 +1363,8 @@ void f_l2d() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._double=value1._long};
+	component to_push = {.type=NUMERIC};
+	to_push._double=value1._long;
 	i_push(to_push);
 }
 
@@ -1333,7 +1376,8 @@ void f_l2f() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._float=value1._long};
+	component to_push = {.type=NUMERIC};
+	to_push._float=value1._long;
 	i_push(to_push);
 }
 
@@ -1345,7 +1389,8 @@ void f_l2i() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._int=value1._long};
+	component to_push = {.type=NUMERIC};
+	to_push._int=value1._long;
 	i_push(to_push);
 }
 
@@ -1358,7 +1403,8 @@ void f_ladd() {
 		return;
 	}
 
-	component ret = {.type=NUMERIC,._long = (value1._long + value2._long)};
+	component ret = {.type=NUMERIC};
+	ret._long = (value1._long + value2._long);
 	
 	i_push(ret);
 }
@@ -1377,7 +1423,8 @@ void f_land() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._long=(value1._long&value2._long)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long&value2._long);
 	i_push(to_push);
 }
 
@@ -1420,7 +1467,8 @@ void f_ldiv() {
 	}
 
 	// result is value1 / value2
-	component to_push = {.type=NUMERIC,._long=(value1._long/value2._long)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long/value2._long);
 	i_push(to_push);
 }
 
@@ -1428,7 +1476,8 @@ void f_lload_n(int index) {
 	local_variable2 var = i_local_variable2(index);
 	if (i_has_exception())
 		return;
-	component to_push = {.type=NUMERIC,._long=var._long};
+	component to_push = {.type=NUMERIC};
+	to_push._long=var._long;
 	i_push(to_push);
 }
 
@@ -1462,7 +1511,8 @@ void f_lmul() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._long=(value1._long*value2._long)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long*value2._long);
 	i_push(to_push);
 }
 
@@ -1474,7 +1524,8 @@ void f_lneg() {
 		return;
 	}
 	
-	component to_push = {.type=NUMERIC,._long=(value1._long*(-1))};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long*(-1));
 	i_push(to_push);
 }
 
@@ -1491,7 +1542,8 @@ void f_lor() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._long=(value1._long|value2._long)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long|value2._long);
 	i_push(to_push);
 }
 
@@ -1514,7 +1566,8 @@ void f_lshl() {
 
 	int s = (value2._int)&(0x3F);
 	
-	component to_push = {.type=NUMERIC,._long=(value1._long<<s)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long<<s);
 	i_push(to_push);
 }
 
@@ -1529,13 +1582,15 @@ void f_lshr() {
 
 	int s = (value2._int)&(0x3F);
 	
-	component to_push = {.type=NUMERIC,._long=(value1._long>>s)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long>>s);
 	i_push(to_push);
 }
 
 void f_lstore_n(int index) {
 	component objectref = i_pop();
-	local_variable2 var = {._long=objectref._long};
+	local_variable2 var;
+	var._long=objectref._long;
 	i_local_variable_set2(index, var);
 }
 
@@ -1569,7 +1624,8 @@ void f_lsub() {
 	}
 
 	// result is value1 - value2
-	component to_push = {.type=NUMERIC,._long=(value1._long-value2._long)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long-value2._long);
 	i_push(to_push);
 }
 
@@ -1584,7 +1640,8 @@ void f_lushr() {
 
 	int s = (value2._int)&(0x3F);
 	
-	component to_push = {.type=NUMERIC,._ulong=(value1._ulong>>s)};
+	component to_push = {.type=NUMERIC};
+	to_push._ulong=(value1._ulong>>s);
 	i_push(to_push);
 }
 
@@ -1597,7 +1654,8 @@ void f_lxor() {
 		return;
 	}
 
-	component to_push = {.type=NUMERIC,._long=(value1._long^value2._long)};
+	component to_push = {.type=NUMERIC};
+	to_push._long=(value1._long^value2._long);
 	i_push(to_push);
 }
 
@@ -1652,7 +1710,7 @@ void f_ret() {
 }
 
 void f_return() {
-	component c = {.type=VOID_RETURN,.u8=0L};
+	component c = {.type=VOID_RETURN};
 	i_return(c);
 }
 
@@ -1669,7 +1727,8 @@ void f_sipush() {
 	u2 sshort = i_read_code_u2();
 
 	s4 extend = (s4)(*((s2*)&sshort));
-	component to_push = {.type=NUMERIC,._int=extend};
+	component to_push = {.type=NUMERIC};
+	to_push._int=extend;
 
 	i_push(to_push);
 }

@@ -3,7 +3,6 @@
 #define OPERAND_STACK_SIZE      128
 #define LOCAL_VARIABLES_SIZE    128
 #include <stdint.h>
-#include "instruction_utils.h"
 #include "classfile_definitions.h"
 
 typedef uint8_t  u1;
@@ -40,12 +39,16 @@ enum {
 
 typedef uint32_t component_type;
 
-typedef struct  {
+struct c_array;
+struct c_class;
+struct c_interface;
+
+typedef struct component {
     component_type type;
     union {
-        c_array*        array;
+ struct c_array*        array;
         class_file*     clazz;
-        c_interface*    interface;
+ struct c_interface*    interface;
         s1              _byte;
         u1              _ubyte;
         s2              _short;
@@ -62,6 +65,12 @@ typedef struct  {
         double          _double;
     };
 } component;
+
+typedef struct c_array{
+    u4              len;
+    component_type  type;
+    component       data[];
+} c_array;
 
 const extern component NULL_COMPONENT;
 
@@ -89,23 +98,17 @@ typedef struct  {
     };
 } local_variable2;
 
-typedef struct {
-    u4              len;
-    component_type  type;
-    component       data[];
-} c_array;
-
-typedef struct {
+typedef struct c_object{
     class_file*     clazz;
     void*           methods; 
     void*           object_data;
 } c_object;
 
-typedef struct {
+typedef struct c_interface{
 
 } c_interface;
 
-typedef struct {
+typedef struct c_class {
     class_file* class_file;
     int         initialized;
 } c_class;
@@ -117,9 +120,9 @@ typedef struct {
     class_file*     clazz;
 } frame;
 
-typedef struct {
-    frame_stack*    last;
-    frame           data;
+typedef struct frame_stack {
+    struct frame_stack* last;
+    frame               data;
 } frame_stack;
 
 /**

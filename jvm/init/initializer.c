@@ -1,4 +1,5 @@
 #include "initializer.h"
+#include <stdio.h>
 
 void initialize_class(c_class* clazz) {
     // TODO ... todar clinit etc etc

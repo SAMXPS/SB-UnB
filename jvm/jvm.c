@@ -7,7 +7,7 @@
 #include "loader.h"
 #include "initializer.h"
 
-const component NULL_COMPONENT = {.type=NULL_REFERENCE,.u8=0L};
+const component NULL_COMPONENT = {0};
 frame_stack* fstack = 0;
 
 void i_operand_stack_push(component data) {
