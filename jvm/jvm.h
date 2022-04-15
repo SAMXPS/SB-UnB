@@ -4,6 +4,8 @@
 #define LOCAL_VARIABLES_SIZE    128
 #include <stdint.h>
 #include "classfile_definitions.h"
+#include <unordered_map>
+#include "classfile_attributes.h"
 
 typedef uint8_t  u1;
 typedef uint16_t u2;
@@ -108,16 +110,26 @@ typedef struct c_interface{
 
 } c_interface;
 
+typedef struct c_method {
+    std::string         name;
+    std::string         descriptor;
+    u1*                 code;
+    attribute_Code*     atr_code;
+    u2                  access_flags;
+} c_method;
+
 typedef struct c_class {
-    class_file* class_file;
-    int         initialized;
+    class_file*                                 class_file;
+    std::unordered_map<std::string,c_method>    methods;
+    std::string                                 name;
+    int                                         initialized;
 } c_class;
 
 typedef struct {
     local_variable  local_variables[LOCAL_VARIABLES_SIZE];
     component       operand_stack[OPERAND_STACK_SIZE];
     u1              operand_stack_pos;
-    class_file*     clazz;
+    c_class*        clazz;
 } frame;
 
 typedef struct frame_stack {
@@ -156,7 +168,7 @@ void fstack_push(frame f);
  * @brief Adiciona um novo frame no topo da pilha de frames, especificando a classe mãe do frame.
  * @param clazz Classe do frame que será adicionado.
  */
-void fstack_new(class_file* clazz);
+void fstack_new(c_class* clazz);
 
 #define exit_jvm(MESSAGE)\
     printf(#MESSAGE"\r\n");\

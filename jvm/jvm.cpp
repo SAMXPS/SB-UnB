@@ -4,10 +4,13 @@
 #include <stdlib.h>
 #include "classfile_definitions.h"
 #include "classfile_loader.h"
+#include "instruction_map.h"
+#include "bytecode_map.h"
 #include "linker.h"
 #include "loader.h"
 #include "initializer.h"
 
+int debug = 1;
 const component NULL_COMPONENT = {0};
 frame_stack* fstack = 0;
 
@@ -127,7 +130,7 @@ void fstack_push(frame f) {
     fstack = new_frame;
 }
 
-void fstack_new(class_file* clazz) {
+void fstack_new(c_class* clazz) {
     frame f = {0};
     f.clazz = clazz;
     f.operand_stack_pos = -1;
@@ -139,6 +142,73 @@ void print_usage() {
     printf("Opcoces:\r\n");
     printf("\t--folder <folder>\tEspecificar uma pasta que contem uma serie de classes a serem carregadas.\r\n");
     printf("\t--exibir\tNao executar as classes, apenas rodar o leitor-exibidor.\r\n");
+}
+
+u1* pc;
+u1* next_pc;
+void (*instruction)();
+u1  opcode;
+
+void fetch() {
+    opcode = *pc;
+}
+
+void decode() {
+    instruction = instruction_handler[opcode];
+    if (!instruction) {
+        printf("instrucao %d nao implementada\r\n", opcode);
+        exit_jvm();
+    }
+    if (debug) {
+        printf("Rodando instrucao %s\r\n", instruction_map[opcode]);
+    }
+}
+
+void run() {
+    while (1) {
+        fetch();
+        decode();
+        next_pc = pc+1;
+        instruction();
+        pc = next_pc;
+    }
+}
+
+void i_run_clinit(c_class* clazz) {
+
+}
+
+void run_main(c_class* main) {
+    // On instance method invocation, local variable 0 is always used to pass a reference to the object on which the instance method is being invoked (this in the Java programming language).
+    // Any parameters are subsequently passed in consecutive local variables starting from local variable 1.
+
+    load_instructions();
+    load_instruction_map();
+
+    if (main->methods.find("main([Ljava/lang/String;)V") == main->methods.end()) {
+        printf("Main nao encontrada!!\r\n");
+        return;
+    }
+
+    c_method method = main->methods["main([Ljava/lang/String;)V"];
+
+    if (!ACC_IS_STATIC(method.access_flags)) {
+        printf("Main nao eh estatica!!\r\n");
+        return;
+    }
+
+    if (!method.code) {
+        printf("Main nao tem codigo implementado!!\r\n");
+        return;
+    }
+
+    if (debug) {
+        printf("[DBG] Iniciando aplicacao main da classe %s\r\n", main->name.c_str());
+    }
+
+    pc = method.code;
+    fstack_new(main);
+    run();
 }
 
 int main(int argc, char *argv[]) {

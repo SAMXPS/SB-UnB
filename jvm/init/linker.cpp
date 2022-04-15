@@ -17,7 +17,7 @@ c_class* get_class(char* class_name_cp) {
     if (!loaded)
         return 0;
 
-    c_class* clazz = (c_class*) malloc(sizeof(c_class));
+    c_class* clazz = new c_class();
 
     if (!clazz) {
         // TODO: handle error.

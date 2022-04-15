@@ -18,8 +18,27 @@ enum CONSTANT_TAGS {
     CONSTANT_Long               = 5,
     CONSTANT_Double             = 6,
     CONSTANT_NameAndType        = 12,
-    CONSTANT_Utf8               = 1
+    CONSTANT_Utf8               = 1,
 };
+
+enum ACCESS_CLASS {
+    ACC_PUBLIC	    = 0x0001,	// Declared public; may be accessed from outside its package.
+    ACC_PRIVATE	    = 0x0002,	// Declared private; usable only within the defining class.
+    ACC_PROTECTED	= 0x0004,	// Declared protected; may be accessed within subclasses.
+    ACC_STATIC	    = 0x0008,	// Declared static.
+    ACC_FINAL	    = 0x0010,	// Declared final; no subclasses allowed.
+    ACC_SUPER	    = 0x0020,	// Treat superclass methods specially when invoked by the invokespecial instruction.
+    ACC_VOLATILE	= 0x0040,	// Declared volatile; cannot be cached.
+    ACC_TRANSIENT	= 0x0080,	// Declared transient; not written or read by a persistent object manager.
+    ACC_INTERFACE	= 0x0200,	// Is an interface, not a class.
+    ACC_ABSTRACT	= 0x0400,	// Declared abstract; must not be instantiated.
+    ACC_SYNTHETIC	= 0x1000,	// Declared synthetic; not present in the source code.
+    ACC_ANNOTATION	= 0x2000,	// Declared as an annotation type.
+    ACC_ENUM	    = 0x4000,	// Declared as an enum type.
+};
+
+#define ACC_IS_STATIC(x) (ACC_STATIC&(x))
+#define ACC_IS_PUBLIC(x) (ACC_PUBLIC&(x))
 
 typedef struct {
     u2 length;
