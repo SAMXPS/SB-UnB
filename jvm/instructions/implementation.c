@@ -1255,7 +1255,8 @@ void f_irem() {
 }
 
 void f_ireturn() {
-	exit_jvm("Instrucao f_ireturn NAO IMPLEMENTADA.");
+	component to_return = i_pop();
+	i_return(to_return);
 }
 
 void f_ishl() {

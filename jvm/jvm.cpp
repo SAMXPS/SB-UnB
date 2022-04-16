@@ -143,8 +143,70 @@ c_method* i_find_method(cp_info* method_ref) {
     }
 }
 
+void print_component(component c) {
+    printf("component ");
+    switch (c.type) {
+        case NULL_REFERENCE:
+            printf("referencia nula");
+            break;
+        case VOID_RETURN:
+            printf("VOID RETURN");
+            break;
+        case NUMERIC:
+            printf("NUMERICO %ld", c._long);
+            break;
+        default:
+            break;
+    }
+    printf("\n");
+}
+
+void print_frame(frame* frame) {
+    for(int i = 0; i <= frame->operand_stack_pos && frame->operand_stack_pos != 0xFF; i++) {
+        printf("[%d] ");
+        print_component(frame->operand_stack[i]);
+    }
+}
+
 void i_load_method_parameters(c_method* method, frame* frame) {
     // TODO: ler method descriptor e carregar os parametros corretamente.
+    std::string descriptor = method->descriptor;
+    component c;
+    int lpos = 0;
+    local_variable l;
+    int end = 0;
+    for (int i = 1; i < descriptor.length() && !end; i++) {
+        switch (descriptor[i]){
+            case FD_BYTE:
+            case FD_CHAR:
+                c = i_pop();
+                l._byte = c._byte;
+                frame->local_variables[lpos++] = l;
+                break;
+            case FD_SHORT:
+            case FD_BOOLEAN:
+            case FD_FLOAT:
+            case FD_INTEGER:
+                c = i_pop();
+                l._uint = c._uint;
+                frame->local_variables[lpos++] = l;
+                break;
+            case FD_LONG:
+            case FD_DOUBLE:
+                break;
+            case FD_CLASSNAME:
+                break;
+            case FD_REFERENCE:
+                break;
+            case ')':
+                end = 1;
+                break;
+            default:
+                break;
+        }
+    }
+
+    printf("[WARNING] Eh preciso ler method descriptor e carregar os parametros corretamente.!\r\n");
 }
 
 void i_invoke_static(c_method* method) {
@@ -159,6 +221,10 @@ void i_invoke_static(c_method* method) {
     i_load_method_parameters(method, &f);
 
     f.pc = method->code;
+
+    if (fstack_top()) {
+        fstack_top()->pc = next_pc;
+    }
 
     fstack_push(f);
 
@@ -179,6 +245,10 @@ component i_create_array(int type_index, int len) {
 }
 
 void i_return(component ret) {
+    if (debug) {
+        printf("[DBG] Retornando ");
+        print_component(ret);
+    }
     fstack_pop();
     if (fstack_top() && ret.type != VOID_RETURN){
         i_push(ret);
@@ -202,12 +272,20 @@ frame* fstack_top() {
     return 0;
 }
 
+
 frame fstack_pop() {
     if (fstack) {
         frame f = fstack->data;
+        if (debug) {
+            printf("[DBG] dando pop no frame atual da stack\r\n");
+            print_frame(&f);
+        }
         frame_stack* to_free = fstack;
         fstack = fstack->last;
         free(to_free);
+        if (fstack) {
+            next_pc = fstack->data.pc;
+        }
         return f;
     }
     // Erro, pilha vazia??
@@ -262,8 +340,6 @@ void run() {
 void i_run_clinit(c_class* clazz) {
     if (debug) {
         printf("[DBG] Rodando clinit da classe %s\r\n", clazz->name.c_str());
-        // TOOD: remover isso quando clinit funfar legal
-        return;
     }
 
     fstack_new(clazz);

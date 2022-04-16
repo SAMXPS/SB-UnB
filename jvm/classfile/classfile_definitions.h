@@ -39,7 +39,7 @@ enum ACCESS_CLASS {
 
 enum FIELD_DESCRIPTORS {
     FD_BYTE = 'B',	    //byte	signed byte
-    FD_HAR = 'C',	    //char	Unicode character code point in the Basic Multilingual Plane, encoded with UTF-16
+    FD_CHAR = 'C',	    //char	Unicode character code point in the Basic Multilingual Plane, encoded with UTF-16
     FD_DOUBLE = 'D',	//double	double-precision floating-point value
     FD_FLOAT = 'F',	    //float	single-precision floating-point value
     FD_INTEGER = 'I',	//int	integer
